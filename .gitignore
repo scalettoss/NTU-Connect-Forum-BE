@@ -1,0 +1,17 @@
+﻿bin/
+obj/
+
+
+*.csproj
+*.csproj.user
+*.suo
+
+
+
+
+.vs/
+
+appsettings.json
+appsettings.Development.json
+
+WebApplication1/Properties/launchSettings.json
