@@ -1,0 +1,1204 @@
+2025-04-16 00:00:28.904 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/login - application/json 48
+2025-04-16 00:00:28.915 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 00:00:28.917 +07:00 [INF] Route matched with {action = "LoginUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] LoginUser(ForumBE.DTOs.Auth.Login.LoginRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 00:00:28.920 +07:00 [INF] Fetching user by email: baott21@fpt.com
+2025-04-16 00:00:29.013 +07:00 [INF] Executed DbCommand (33ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 00:00:29.102 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 00:00:29.105 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.LoginUser (ForumBE) in 186.349ms
+2025-04-16 00:00:29.107 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 00:00:29.110 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/login - 200 null application/json; charset=utf-8 207.428ms
+2025-04-16 00:00:52.724 +07:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5244/api/auth/login - null null
+2025-04-16 00:00:52.730 +07:00 [INF] CORS policy execution successful.
+2025-04-16 00:00:52.731 +07:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5244/api/auth/login - 204 null null 6.9184ms
+2025-04-16 00:00:52.738 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/login - application/json 48
+2025-04-16 00:00:52.740 +07:00 [INF] CORS policy execution successful.
+2025-04-16 00:00:52.741 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 00:00:52.742 +07:00 [INF] Route matched with {action = "LoginUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] LoginUser(ForumBE.DTOs.Auth.Login.LoginRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 00:00:52.744 +07:00 [INF] Fetching user by email: baott21@fpt.com
+2025-04-16 00:00:52.750 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 00:00:52.807 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 00:00:52.809 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.LoginUser (ForumBE) in 65.3866ms
+2025-04-16 00:00:52.810 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 00:00:52.812 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/login - 200 null application/json; charset=utf-8 73.6915ms
+2025-04-16 00:01:31.399 +07:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5244/api/auth/login - null null
+2025-04-16 00:01:31.406 +07:00 [INF] CORS policy execution successful.
+2025-04-16 00:01:31.407 +07:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5244/api/auth/login - 204 null null 8.1591ms
+2025-04-16 00:01:31.410 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/login - application/json 48
+2025-04-16 00:01:31.417 +07:00 [INF] CORS policy execution successful.
+2025-04-16 00:01:31.418 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 00:01:31.419 +07:00 [INF] Route matched with {action = "LoginUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] LoginUser(ForumBE.DTOs.Auth.Login.LoginRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 00:01:31.421 +07:00 [INF] Fetching user by email: baott21@fpt.com
+2025-04-16 00:01:31.426 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 00:01:31.489 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 00:01:31.490 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.LoginUser (ForumBE) in 70.0458ms
+2025-04-16 00:01:31.492 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 00:01:31.493 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/login - 200 null application/json; charset=utf-8 82.6957ms
+2025-04-16 00:01:37.662 +07:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5244/api/auth/login - null null
+2025-04-16 00:01:37.664 +07:00 [INF] CORS policy execution successful.
+2025-04-16 00:01:37.664 +07:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5244/api/auth/login - 204 null null 2.7666ms
+2025-04-16 00:01:37.667 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/login - application/json 48
+2025-04-16 00:01:37.670 +07:00 [INF] CORS policy execution successful.
+2025-04-16 00:01:37.671 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 00:01:37.671 +07:00 [INF] Route matched with {action = "LoginUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] LoginUser(ForumBE.DTOs.Auth.Login.LoginRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 00:01:37.673 +07:00 [INF] Fetching user by email: baott21@fpt.com
+2025-04-16 00:01:37.676 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 00:01:37.734 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 00:01:37.736 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.LoginUser (ForumBE) in 63.2835ms
+2025-04-16 00:01:37.737 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 00:01:37.738 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/login - 200 null application/json; charset=utf-8 70.5142ms
+2025-04-16 00:02:15.104 +07:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5244/api/auth/login - null null
+2025-04-16 00:02:15.109 +07:00 [INF] CORS policy execution successful.
+2025-04-16 00:02:15.109 +07:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5244/api/auth/login - 204 null null 5.633ms
+2025-04-16 00:02:15.112 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/login - application/json 48
+2025-04-16 00:02:15.117 +07:00 [INF] CORS policy execution successful.
+2025-04-16 00:02:15.117 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 00:02:15.118 +07:00 [INF] Route matched with {action = "LoginUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] LoginUser(ForumBE.DTOs.Auth.Login.LoginRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 00:02:15.120 +07:00 [INF] Fetching user by email: baott21@fpt.com
+2025-04-16 00:02:15.130 +07:00 [INF] Executed DbCommand (9ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 00:02:15.186 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 00:02:15.188 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.LoginUser (ForumBE) in 68.6648ms
+2025-04-16 00:02:15.189 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 00:02:15.190 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/login - 200 null application/json; charset=utf-8 77.9429ms
+2025-04-16 20:49:42.188 +07:00 [INF] User profile is available. Using 'C:\Users\scale\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-04-16 20:49:42.567 +07:00 [INF] Now listening on: http://localhost:5244
+2025-04-16 20:49:42.664 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-16 20:49:42.665 +07:00 [INF] Hosting environment: Development
+2025-04-16 20:49:42.666 +07:00 [INF] Content root path: D:\Final Project\ForumBackEnd\ForumBackEnd\WebApplication1
+2025-04-16 20:49:43.328 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/swagger/index.html - null null
+2025-04-16 20:49:43.695 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/swagger/index.html - 200 null text/html;charset=utf-8 380.1502ms
+2025-04-16 20:49:43.773 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/_framework/aspnetcore-browser-refresh.js - null null
+2025-04-16 20:49:43.773 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/_vs/browserLink - null null
+2025-04-16 20:49:43.781 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/_framework/aspnetcore-browser-refresh.js - 200 13750 application/javascript; charset=utf-8 27.442ms
+2025-04-16 20:49:43.853 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/_vs/browserLink - 200 null text/javascript; charset=UTF-8 83.4121ms
+2025-04-16 20:49:44.159 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/swagger/v1/swagger.json - null null
+2025-04-16 20:49:44.329 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 170.1672ms
+2025-04-16 20:49:49.923 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/login - application/json 48
+2025-04-16 20:49:49.936 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-04-16 20:49:50.783 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 20:49:50.817 +07:00 [INF] Route matched with {action = "LoginUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] LoginUser(ForumBE.DTOs.Auth.Login.LoginRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 20:49:52.054 +07:00 [INF] Fetching user by email: baott21@fpt.com
+2025-04-16 20:49:53.385 +07:00 [INF] Executed DbCommand (109ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 20:49:53.679 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 20:49:53.690 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.LoginUser (ForumBE) in 2867.9041ms
+2025-04-16 20:49:53.691 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 20:49:53.699 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/login - 200 null application/json; charset=utf-8 3775.9311ms
+2025-04-16 20:51:07.136 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/register - application/json 142
+2025-04-16 20:51:07.164 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.RegisterUser (ForumBE)'
+2025-04-16 20:51:07.168 +07:00 [INF] Route matched with {action = "RegisterUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] RegisterUser(ForumBE.DTOs.Auth.Register.RegisterRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 20:51:07.227 +07:00 [INF] Executed DbCommand (11ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 20:51:07.395 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 100), @p2='?' (Size = 100), @p3='?' (DbType = Boolean), @p4='?' (Size = 100), @p5='?' (Size = 255), @p6='?' (DbType = Int32), @p7='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Users] ([CreatedAt], [Email], [FirstName], [IsActive], [LastName], [PasswordHash], [RoleId], [UpdatedAt])
+OUTPUT INSERTED.[UserId]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7);
+2025-04-16 20:51:07.416 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 20:51:07.436 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (Size = 100), @p1='?' (Size = 255), @p2='?' (Size = 500), @p3='?' (DbType = DateTime2), @p4='?' (Size = 20), @p5='?' (DbType = Boolean), @p6='?' (Size = 20), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [UserProfiles] ([Address], [AvatarUrl], [Bio], [DateOfBirth], [Gender], [IsProfilePublic], [PhoneNumber], [UserId])
+OUTPUT INSERTED.[ProfileId]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7);
+2025-04-16 20:51:07.441 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 20:51:07.447 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.RegisterUser (ForumBE) in 277.23ms
+2025-04-16 20:51:07.448 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.RegisterUser (ForumBE)'
+2025-04-16 20:51:07.449 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/register - 200 null application/json; charset=utf-8 313.7238ms
+2025-04-16 20:51:53.694 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/register - application/json 142
+2025-04-16 20:51:53.699 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.RegisterUser (ForumBE)'
+2025-04-16 20:51:53.700 +07:00 [INF] Route matched with {action = "RegisterUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] RegisterUser(ForumBE.DTOs.Auth.Register.RegisterRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 20:51:53.724 +07:00 [INF] Executed DbCommand (9ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 20:51:53.792 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.RegisterUser (ForumBE) in 90.4792ms
+2025-04-16 20:51:53.794 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.RegisterUser (ForumBE)'
+2025-04-16 20:51:53.834 +07:00 [ERR] An unhandled exception occurred: Conflict: Email already exists.
+2025-04-16 20:51:53.838 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/register - 409 null application/json 144.9754ms
+2025-04-16 20:53:47.028 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/login - application/json 61
+2025-04-16 20:53:47.037 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 20:53:47.038 +07:00 [INF] Route matched with {action = "LoginUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] LoginUser(ForumBE.DTOs.Auth.Login.LoginRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 20:53:47.041 +07:00 [INF] Fetching user by email: baott21@fpt.com
+2025-04-16 20:53:47.052 +07:00 [INF] Executed DbCommand (9ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 20:53:47.156 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.LoginUser (ForumBE) in 115.9675ms
+2025-04-16 20:53:47.158 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 20:53:47.189 +07:00 [ERR] An unhandled exception occurred: Password not correct.
+2025-04-16 20:53:47.191 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/login - 401 null application/json 164.0879ms
+2025-04-16 20:53:57.983 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/api/user?pageIndex=1&pageSize=3 - null null
+2025-04-16 20:53:58.017 +07:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '4/15/2025 6:07:07 AM', Current time (UTC): '4/16/2025 1:53:58 PM'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-04-16 20:53:58.044 +07:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '4/15/2025 6:07:07 AM', Current time (UTC): '4/16/2025 1:53:58 PM'.
+2025-04-16 20:53:58.045 +07:00 [WRN] Unauthorized access attempt to /api/user
+2025-04-16 20:53:58.049 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/api/user?pageIndex=1&pageSize=3 - 401 null application/json 66.2271ms
+2025-04-16 20:56:22.393 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/swagger/index.html - null null
+2025-04-16 20:56:22.410 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/swagger/index.html - 200 null text/html;charset=utf-8 16.5248ms
+2025-04-16 20:56:22.515 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/_framework/aspnetcore-browser-refresh.js - null null
+2025-04-16 20:56:22.520 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/_framework/aspnetcore-browser-refresh.js - 200 13750 application/javascript; charset=utf-8 4.8564ms
+2025-04-16 20:56:22.529 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/_vs/browserLink - null null
+2025-04-16 20:56:22.547 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/_vs/browserLink - 200 null text/javascript; charset=UTF-8 18.1018ms
+2025-04-16 20:56:22.874 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/swagger/v1/swagger.json - null null
+2025-04-16 20:56:22.910 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 36.0816ms
+2025-04-16 20:56:23.810 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/api/user?pageIndex=1&pageSize=3 - null null
+2025-04-16 20:56:23.817 +07:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '4/15/2025 6:07:07 AM', Current time (UTC): '4/16/2025 1:56:23 PM'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-04-16 20:56:23.819 +07:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '4/15/2025 6:07:07 AM', Current time (UTC): '4/16/2025 1:56:23 PM'.
+2025-04-16 20:56:23.820 +07:00 [WRN] Unauthorized access attempt to /api/user
+2025-04-16 20:56:23.822 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/api/user?pageIndex=1&pageSize=3 - 401 null application/json 14.0356ms
+2025-04-16 20:56:28.644 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/register - application/json 142
+2025-04-16 20:56:28.647 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.RegisterUser (ForumBE)'
+2025-04-16 20:56:28.651 +07:00 [INF] Route matched with {action = "RegisterUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] RegisterUser(ForumBE.DTOs.Auth.Register.RegisterRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 20:56:28.664 +07:00 [INF] Executed DbCommand (8ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 20:56:28.707 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.RegisterUser (ForumBE) in 54.7652ms
+2025-04-16 20:56:28.708 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.RegisterUser (ForumBE)'
+2025-04-16 20:56:28.743 +07:00 [ERR] An unhandled exception occurred: Conflict: Email already exists.
+2025-04-16 20:56:28.949 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.MissingMethodException: Attempted to invoke a deleted method implementation. This can happen when a method is deleted or its name or signature is changed while the application is running.
+   at ForumBE.Middlewares.ErrorResponse.get_Status()
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.GetMemberAndWriteJson(Object obj, WriteStack& state, Utf8JsonWriter writer)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryWrite(Utf8JsonWriter writer, T value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.JsonConverter`1.TryWrite(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.JsonConverter`1.WriteCore(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Serialize(Utf8JsonWriter writer, T& rootValue, Object rootValueBoxed)
+   at System.Text.Json.JsonSerializer.WriteString[TValue](TValue& value, JsonTypeInfo`1 jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Serialize[TValue](TValue value, JsonSerializerOptions options)
+   at ForumBE.Middlewares.HandlingException.HandleExceptionAsync(HttpContext context, Exception exception)
+   at ForumBE.Middlewares.HandlingException.Invoke(HttpContext context)
+   at ForumBE.Middlewares.HandlingValidation.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ForumBE.Middlewares.HandlingAuthentication.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-04-16 20:56:28.958 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/register - 500 null text/plain; charset=utf-8 314.1931ms
+2025-04-16 20:56:39.356 +07:00 [INF] User profile is available. Using 'C:\Users\scale\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-04-16 20:56:39.581 +07:00 [INF] Now listening on: http://localhost:5244
+2025-04-16 20:56:39.667 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-16 20:56:39.669 +07:00 [INF] Hosting environment: Development
+2025-04-16 20:56:39.670 +07:00 [INF] Content root path: D:\Final Project\ForumBackEnd\ForumBackEnd\WebApplication1
+2025-04-16 20:56:39.987 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/swagger/index.html - null null
+2025-04-16 20:56:40.166 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/swagger/index.html - 200 null text/html;charset=utf-8 186.3701ms
+2025-04-16 20:56:40.204 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/_framework/aspnetcore-browser-refresh.js - null null
+2025-04-16 20:56:40.204 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/_vs/browserLink - null null
+2025-04-16 20:56:40.211 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/_framework/aspnetcore-browser-refresh.js - 200 13750 application/javascript; charset=utf-8 8.1224ms
+2025-04-16 20:56:40.252 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/_vs/browserLink - 200 null text/javascript; charset=UTF-8 47.5975ms
+2025-04-16 20:56:40.423 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/swagger/v1/swagger.json - null null
+2025-04-16 20:56:40.542 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 119.058ms
+2025-04-16 20:56:42.798 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/register - application/json 142
+2025-04-16 20:56:42.806 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-04-16 20:56:42.868 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.RegisterUser (ForumBE)'
+2025-04-16 20:56:42.890 +07:00 [INF] Route matched with {action = "RegisterUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] RegisterUser(ForumBE.DTOs.Auth.Register.RegisterRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 20:56:44.320 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 20:56:44.521 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.RegisterUser (ForumBE) in 1625.1277ms
+2025-04-16 20:56:44.525 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.RegisterUser (ForumBE)'
+2025-04-16 20:56:44.569 +07:00 [ERR] An unhandled exception occurred: Conflict: Email already exists.
+2025-04-16 20:56:44.581 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/register - 409 null application/json 1782.8156ms
+2025-04-16 20:57:09.459 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/login - application/json 61
+2025-04-16 20:57:09.470 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 20:57:09.475 +07:00 [INF] Route matched with {action = "LoginUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] LoginUser(ForumBE.DTOs.Auth.Login.LoginRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 20:57:09.525 +07:00 [INF] Fetching user by email: baott21@fpt.com
+2025-04-16 20:57:09.534 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 20:57:09.656 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.LoginUser (ForumBE) in 178.8554ms
+2025-04-16 20:57:09.659 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 20:57:09.691 +07:00 [ERR] An unhandled exception occurred: Password not correct.
+2025-04-16 20:57:09.692 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/login - 401 null application/json 232.8893ms
+2025-04-16 20:58:30.923 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/api/user?pageIndex=1&pageSize=3 - null null
+2025-04-16 20:58:30.971 +07:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '4/15/2025 6:07:07 AM', Current time (UTC): '4/16/2025 1:58:30 PM'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-04-16 20:58:30.989 +07:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '4/15/2025 6:07:07 AM', Current time (UTC): '4/16/2025 1:58:30 PM'.
+2025-04-16 20:58:30.990 +07:00 [WRN] Unauthorized access attempt to /api/user
+2025-04-16 20:58:30.994 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/api/user?pageIndex=1&pageSize=3 - 401 null application/json 72.8298ms
+2025-04-16 20:58:41.957 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/login - application/json 60
+2025-04-16 20:58:41.960 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 20:58:41.961 +07:00 [INF] Route matched with {action = "LoginUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] LoginUser(ForumBE.DTOs.Auth.Login.LoginRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 20:58:41.975 +07:00 [INF] Fetching user by email: baott21@fpt.com
+2025-04-16 20:58:41.987 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 20:58:42.062 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 20:58:42.069 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.LoginUser (ForumBE) in 105.9652ms
+2025-04-16 20:58:42.070 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.LoginUser (ForumBE)'
+2025-04-16 20:58:42.071 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/login - 200 null application/json; charset=utf-8 114.6043ms
+2025-04-16 20:58:55.572 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/api/user?pageIndex=1&pageSize=3 - null null
+2025-04-16 20:58:55.584 +07:00 [INF] Fetching user by ID: 1
+2025-04-16 20:58:55.599 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[UserId] = @__userId_0
+2025-04-16 20:58:55.605 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.UserController.GetAllUser (ForumBE)'
+2025-04-16 20:58:55.610 +07:00 [INF] Route matched with {action = "GetAllUser", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] GetAllUser(ForumBE.DTOs.Paginations.PaginationParams) on controller ForumBE.Controllers.UserController (ForumBE).
+2025-04-16 20:58:55.624 +07:00 [INF] Fetching all users.
+2025-04-16 20:58:55.645 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Users] AS [u]
+2025-04-16 20:58:55.656 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-16 20:58:55.657 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-16 20:58:55.676 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u1].[UserId], [u1].[CreatedAt], [u1].[Email], [u1].[FirstName], [u1].[IsActive], [u1].[LastName], [u1].[PasswordHash], [u1].[RoleId], [u1].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM (
+    SELECT [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt]
+    FROM [Users] AS [u]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [u1]
+LEFT JOIN [UserProfiles] AS [u0] ON [u1].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u1].[RoleId] = [r].[RoleId]
+2025-04-16 20:58:55.690 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 20:58:55.699 +07:00 [INF] Executed action ForumBE.Controllers.UserController.GetAllUser (ForumBE) in 86.8135ms
+2025-04-16 20:58:55.700 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.UserController.GetAllUser (ForumBE)'
+2025-04-16 20:58:55.701 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/api/user?pageIndex=1&pageSize=3 - 200 null application/json; charset=utf-8 129.4974ms
+2025-04-16 21:00:41.747 +07:00 [INF] Request starting HTTP/1.1 PUT http://localhost:5244/api/User/1 - multipart/form-data; boundary=--------------------------682024454155034676305629 172
+2025-04-16 21:00:41.751 +07:00 [INF] Fetching user by ID: 1
+2025-04-16 21:00:41.764 +07:00 [INF] Executed DbCommand (11ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[UserId] = @__userId_0
+2025-04-16 21:00:41.767 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.UserController.UpdateUser (ForumBE)'
+2025-04-16 21:00:41.772 +07:00 [INF] Route matched with {action = "UpdateUser", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] UpdateUser(Int32, ForumBE.DTOs.Users.UserUpdateProfilesRequestDto) on controller ForumBE.Controllers.UserController (ForumBE).
+2025-04-16 21:00:41.789 +07:00 [INF] Updating user profile. ID: 1
+2025-04-16 21:00:41.915 +07:00 [INF] Executed DbCommand (7ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime2), @p1='?' (Size = 100), @p2='?' (Size = 100), @p3='?' (DbType = Boolean), @p4='?' (Size = 100), @p5='?' (Size = 255), @p6='?' (DbType = Int32), @p7='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [Users] SET [CreatedAt] = @p0, [Email] = @p1, [FirstName] = @p2, [IsActive] = @p3, [LastName] = @p4, [PasswordHash] = @p5, [RoleId] = @p6, [UpdatedAt] = @p7
+OUTPUT 1
+WHERE [UserId] = @p8;
+2025-04-16 21:00:41.930 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 21:00:41.936 +07:00 [INF] Executed action ForumBE.Controllers.UserController.UpdateUser (ForumBE) in 163.2944ms
+2025-04-16 21:00:41.937 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.UserController.UpdateUser (ForumBE)'
+2025-04-16 21:00:41.938 +07:00 [INF] Request finished HTTP/1.1 PUT http://localhost:5244/api/User/1 - 200 null application/json; charset=utf-8 190.6885ms
+2025-04-16 21:04:45.028 +07:00 [INF] Request starting HTTP/1.1 PUT http://localhost:5244/api/User/3 - multipart/form-data; boundary=--------------------------262393007420644207707038 172
+2025-04-16 21:04:45.036 +07:00 [INF] Fetching user by ID: 1
+2025-04-16 21:04:45.048 +07:00 [INF] Executed DbCommand (11ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[UserId] = @__userId_0
+2025-04-16 21:04:45.050 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.UserController.UpdateUser (ForumBE)'
+2025-04-16 21:04:45.051 +07:00 [INF] Route matched with {action = "UpdateUser", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] UpdateUser(Int32, ForumBE.DTOs.Users.UserUpdateProfilesRequestDto) on controller ForumBE.Controllers.UserController (ForumBE).
+2025-04-16 21:04:45.053 +07:00 [INF] Updating user profile. ID: 3
+2025-04-16 21:04:45.054 +07:00 [WRN] User ID mismatch. Current: 1, Target: 3
+2025-04-16 21:04:45.120 +07:00 [INF] Executed action ForumBE.Controllers.UserController.UpdateUser (ForumBE) in 67.2584ms
+2025-04-16 21:04:45.121 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.UserController.UpdateUser (ForumBE)'
+2025-04-16 21:04:45.139 +07:00 [ERR] An unhandled exception occurred: User not authorized
+2025-04-16 21:04:45.140 +07:00 [INF] Request finished HTTP/1.1 PUT http://localhost:5244/api/User/3 - 401 null application/json 112.1234ms
+2025-04-16 21:04:59.916 +07:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:5244/api/User/3 - multipart/form-data; boundary=--------------------------115804364565317052168983 172
+2025-04-16 21:04:59.918 +07:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '4/15/2025 4:11:15 AM', Current time (UTC): '4/16/2025 2:04:59 PM'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-04-16 21:04:59.919 +07:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '4/15/2025 4:11:15 AM', Current time (UTC): '4/16/2025 2:04:59 PM'.
+2025-04-16 21:04:59.920 +07:00 [WRN] Unauthorized access attempt to /api/User/3
+2025-04-16 21:04:59.920 +07:00 [INF] Request finished HTTP/1.1 DELETE http://localhost:5244/api/User/3 - 401 null application/json 4.7874ms
+2025-04-16 21:05:00.701 +07:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:5244/api/User/3 - multipart/form-data; boundary=--------------------------777150198850752696592841 172
+2025-04-16 21:05:00.704 +07:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '4/15/2025 4:11:15 AM', Current time (UTC): '4/16/2025 2:05:00 PM'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-04-16 21:05:00.705 +07:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '4/15/2025 4:11:15 AM', Current time (UTC): '4/16/2025 2:05:00 PM'.
+2025-04-16 21:05:00.706 +07:00 [WRN] Unauthorized access attempt to /api/User/3
+2025-04-16 21:05:00.707 +07:00 [INF] Request finished HTTP/1.1 DELETE http://localhost:5244/api/User/3 - 401 null application/json 6.0866ms
+2025-04-16 21:05:05.995 +07:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:5244/api/User/3 - multipart/form-data; boundary=--------------------------245008585136627295979727 172
+2025-04-16 21:05:05.998 +07:00 [INF] Fetching user by ID: 1
+2025-04-16 21:05:06.010 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[UserId] = @__userId_0
+2025-04-16 21:05:06.012 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.UserController.DeleteUser (ForumBE)'
+2025-04-16 21:05:06.016 +07:00 [INF] Route matched with {action = "DeleteUser", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] DeleteUser(Int32) on controller ForumBE.Controllers.UserController (ForumBE).
+2025-04-16 21:05:06.019 +07:00 [INF] Deleting user with ID: 3
+2025-04-16 21:05:06.034 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[UserId] = @__p_0
+2025-04-16 21:05:06.076 +07:00 [INF] Executed DbCommand (30ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+DELETE FROM [Users]
+OUTPUT 1
+WHERE [UserId] = @p0;
+2025-04-16 21:05:06.095 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'ForumBE.Models.ApplicationDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The DELETE statement conflicted with the REFERENCE constraint "FK_Categories_Users_UserId". The conflict occurred in database "NtuConnectDb", table "dbo.Categories", column 'UserId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:e69ef2d2-5738-4577-9485-4c79f0b59323
+Error Number:547,State:0,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The DELETE statement conflicted with the REFERENCE constraint "FK_Categories_Users_UserId". The conflict occurred in database "NtuConnectDb", table "dbo.Categories", column 'UserId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:e69ef2d2-5738-4577-9485-4c79f0b59323
+Error Number:547,State:0,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-04-16 21:05:06.194 +07:00 [INF] Executed action ForumBE.Controllers.UserController.DeleteUser (ForumBE) in 176.3372ms
+2025-04-16 21:05:06.195 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.UserController.DeleteUser (ForumBE)'
+2025-04-16 21:05:06.237 +07:00 [ERR] An unhandled exception occurred: An error occurred while saving the entity changes. See the inner exception for details.
+2025-04-16 21:05:06.238 +07:00 [INF] Request finished HTTP/1.1 DELETE http://localhost:5244/api/User/3 - 500 null application/json 243.0283ms
+2025-04-16 21:05:12.522 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/api/user?pageIndex=1&pageSize=3 - null null
+2025-04-16 21:05:12.525 +07:00 [INF] Fetching user by ID: 1
+2025-04-16 21:05:12.528 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[UserId] = @__userId_0
+2025-04-16 21:05:12.530 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.UserController.GetAllUser (ForumBE)'
+2025-04-16 21:05:12.530 +07:00 [INF] Route matched with {action = "GetAllUser", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] GetAllUser(ForumBE.DTOs.Paginations.PaginationParams) on controller ForumBE.Controllers.UserController (ForumBE).
+2025-04-16 21:05:12.533 +07:00 [INF] Fetching all users.
+2025-04-16 21:05:12.535 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Users] AS [u]
+2025-04-16 21:05:12.542 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u1].[UserId], [u1].[CreatedAt], [u1].[Email], [u1].[FirstName], [u1].[IsActive], [u1].[LastName], [u1].[PasswordHash], [u1].[RoleId], [u1].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM (
+    SELECT [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt]
+    FROM [Users] AS [u]
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [u1]
+LEFT JOIN [UserProfiles] AS [u0] ON [u1].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u1].[RoleId] = [r].[RoleId]
+2025-04-16 21:05:12.544 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 21:05:12.545 +07:00 [INF] Executed action ForumBE.Controllers.UserController.GetAllUser (ForumBE) in 13.0685ms
+2025-04-16 21:05:12.546 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.UserController.GetAllUser (ForumBE)'
+2025-04-16 21:05:12.547 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/api/user?pageIndex=1&pageSize=3 - 200 null application/json; charset=utf-8 25.3651ms
+2025-04-16 21:05:57.069 +07:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:5244/api/User/3 - multipart/form-data; boundary=--------------------------865661050612883575165564 172
+2025-04-16 21:05:57.073 +07:00 [INF] Fetching user by ID: 1
+2025-04-16 21:05:57.076 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[UserId] = @__userId_0
+2025-04-16 21:05:57.083 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.UserController.DeleteUser (ForumBE)'
+2025-04-16 21:05:57.084 +07:00 [INF] Route matched with {action = "DeleteUser", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] DeleteUser(Int32) on controller ForumBE.Controllers.UserController (ForumBE).
+2025-04-16 21:05:57.086 +07:00 [INF] Deleting user with ID: 3
+2025-04-16 21:05:57.089 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[UserId] = @__p_0
+2025-04-16 21:05:57.094 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+DELETE FROM [Users]
+OUTPUT 1
+WHERE [UserId] = @p0;
+2025-04-16 21:05:57.099 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'ForumBE.Models.ApplicationDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The DELETE statement conflicted with the REFERENCE constraint "FK_Categories_Users_UserId". The conflict occurred in database "NtuConnectDb", table "dbo.Categories", column 'UserId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:e69ef2d2-5738-4577-9485-4c79f0b59323
+Error Number:547,State:0,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The DELETE statement conflicted with the REFERENCE constraint "FK_Categories_Users_UserId". The conflict occurred in database "NtuConnectDb", table "dbo.Categories", column 'UserId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:e69ef2d2-5738-4577-9485-4c79f0b59323
+Error Number:547,State:0,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-04-16 21:05:57.184 +07:00 [INF] Executed action ForumBE.Controllers.UserController.DeleteUser (ForumBE) in 98.6566ms
+2025-04-16 21:05:57.186 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.UserController.DeleteUser (ForumBE)'
+2025-04-16 21:05:57.228 +07:00 [ERR] An unhandled exception occurred: An error occurred while saving the entity changes. See the inner exception for details.
+2025-04-16 21:05:57.229 +07:00 [INF] Request finished HTTP/1.1 DELETE http://localhost:5244/api/User/3 - 500 null application/json 160.172ms
+2025-04-16 21:06:06.611 +07:00 [INF] User profile is available. Using 'C:\Users\scale\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-04-16 21:06:06.792 +07:00 [INF] Now listening on: http://localhost:5244
+2025-04-16 21:06:06.857 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-16 21:06:06.859 +07:00 [INF] Hosting environment: Development
+2025-04-16 21:06:06.860 +07:00 [INF] Content root path: D:\Final Project\ForumBackEnd\ForumBackEnd\WebApplication1
+2025-04-16 21:06:07.254 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/swagger/index.html - null null
+2025-04-16 21:06:07.432 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/swagger/index.html - 200 null text/html;charset=utf-8 184.0796ms
+2025-04-16 21:06:07.473 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/_framework/aspnetcore-browser-refresh.js - null null
+2025-04-16 21:06:07.473 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/_vs/browserLink - null null
+2025-04-16 21:06:07.479 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/_framework/aspnetcore-browser-refresh.js - 200 13750 application/javascript; charset=utf-8 7.8774ms
+2025-04-16 21:06:07.519 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/_vs/browserLink - 200 null text/javascript; charset=UTF-8 46.6879ms
+2025-04-16 21:06:07.700 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/swagger/v1/swagger.json - null null
+2025-04-16 21:06:07.863 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 162.5832ms
+2025-04-16 21:06:12.763 +07:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:5244/api/User/3 - multipart/form-data; boundary=--------------------------710213378566951441866322 172
+2025-04-16 21:06:12.771 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-04-16 21:06:13.719 +07:00 [INF] Fetching user by ID: 1
+2025-04-16 21:06:14.362 +07:00 [INF] Executed DbCommand (48ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[UserId] = @__userId_0
+2025-04-16 21:06:14.498 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.UserController.DeleteUser (ForumBE)'
+2025-04-16 21:06:14.522 +07:00 [INF] Route matched with {action = "DeleteUser", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] DeleteUser(Int32) on controller ForumBE.Controllers.UserController (ForumBE).
+2025-04-16 21:06:14.547 +07:00 [INF] Deleting user with ID: 3
+2025-04-16 21:06:14.566 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[UserId] = @__p_0
+2025-04-16 21:06:14.679 +07:00 [INF] Executed DbCommand (16ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+DELETE FROM [Users]
+OUTPUT 1
+WHERE [UserId] = @p0;
+2025-04-16 21:06:14.713 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'ForumBE.Models.ApplicationDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The DELETE statement conflicted with the REFERENCE constraint "FK_Categories_Users_UserId". The conflict occurred in database "NtuConnectDb", table "dbo.Categories", column 'UserId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:f5411a48-6eea-46fb-9883-70a937f0057c
+Error Number:547,State:0,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): The DELETE statement conflicted with the REFERENCE constraint "FK_Categories_Users_UserId". The conflict occurred in database "NtuConnectDb", table "dbo.Categories", column 'UserId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithRowsAffectedOnlyAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:f5411a48-6eea-46fb-9883-70a937f0057c
+Error Number:547,State:0,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-04-16 21:06:14.820 +07:00 [INF] Executed action ForumBE.Controllers.UserController.DeleteUser (ForumBE) in 293.1456ms
+2025-04-16 21:06:14.822 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.UserController.DeleteUser (ForumBE)'
+2025-04-16 21:06:14.870 +07:00 [ERR] An unhandled exception occurred: An error occurred while saving the entity changes. See the inner exception for details.
+2025-04-16 21:06:14.882 +07:00 [INF] Request finished HTTP/1.1 DELETE http://localhost:5244/api/User/3 - 500 null application/json 2118.6787ms
+2025-04-16 21:09:17.435 +07:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:09:17.472 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:09:17.492 +07:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:09:17.533 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:09:17.543 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:09:17.545 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:09:17.553 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:09:17.564 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:09:17.603 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:09:17.607 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:09:17.615 +07:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:09:17.623 +07:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:11:58.569 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:11:58.604 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:11:58.621 +07:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:11:58.658 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:11:58.666 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:11:58.668 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:11:58.676 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:11:58.687 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:11:58.718 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:11:58.722 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:11:58.727 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:11:58.732 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:14:28.530 +07:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:14:28.567 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:14:28.584 +07:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:14:28.623 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:14:28.632 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:14:28.634 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:14:28.639 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:14:28.650 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:14:28.682 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:14:28.685 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:14:28.693 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:14:28.697 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:17:25.516 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:17:25.552 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:17:25.570 +07:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:17:25.612 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:17:25.621 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:17:25.623 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:17:25.632 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:17:25.643 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:17:25.676 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:17:25.680 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:17:25.685 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:17:25.689 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:20:19.451 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:20:19.489 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:20:19.505 +07:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:20:19.545 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:20:19.554 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:20:19.556 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:20:19.564 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:20:19.576 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:20:19.608 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:20:19.611 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:20:19.617 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:20:19.622 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:22:39.261 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:22:39.297 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:22:39.317 +07:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:22:39.356 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:22:39.364 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:22:39.367 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:22:39.377 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:22:39.390 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:22:39.422 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:22:39.426 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:22:39.435 +07:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:22:39.441 +07:00 [ERR] Failed executing DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:24:14.006 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:24:14.041 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:24:14.055 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:24:14.092 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:24:14.101 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:24:14.104 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:24:14.112 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:24:14.123 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:24:14.155 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:24:14.158 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:24:14.164 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:24:14.169 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:25:28.607 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:25:28.643 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:25:28.660 +07:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:25:28.700 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:25:28.709 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:25:28.711 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:25:28.718 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:25:28.729 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:25:28.761 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:25:28.765 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:25:28.770 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:25:28.775 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:27:45.358 +07:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:27:45.396 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:27:45.411 +07:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:27:45.449 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:27:45.457 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:27:45.459 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:27:45.467 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:27:45.478 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:27:45.508 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:27:45.511 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:27:45.516 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:27:45.521 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:33:39.482 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:33:39.516 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:33:39.534 +07:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:33:39.573 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:33:39.583 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:33:39.585 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:33:39.591 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:33:39.602 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:33:39.634 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:33:39.637 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:33:39.644 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:33:39.649 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:35:41.941 +07:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:35:41.978 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:35:41.995 +07:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:35:42.036 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:35:42.044 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:35:42.046 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:35:42.053 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:35:42.064 +07:00 [INF] Applying migration '20250413124531_cascade_report_post_comment'.
+2025-04-16 21:35:42.096 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Comments_CommentId];
+2025-04-16 21:35:42.101 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:35:42.106 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Comments_CommentId] FOREIGN KEY ([CommentId]) REFERENCES [Comments] ([CommentId]) ON DELETE CASCADE;
+2025-04-16 21:35:42.111 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE CASCADE;
+2025-04-16 21:36:57.636 +07:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:36:57.670 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:36:57.687 +07:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:36:57.725 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:36:57.734 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:36:57.736 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:36:57.744 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:36:57.755 +07:00 [INF] Applying migration '20250416143643_update_fk'.
+2025-04-16 21:36:57.793 +07:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] DROP CONSTRAINT [FK_Reports_Posts_PostId];
+2025-04-16 21:36:57.810 +07:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Reports] ADD CONSTRAINT [FK_Reports_Posts_PostId] FOREIGN KEY ([PostId]) REFERENCES [Posts] ([PostId]) ON DELETE NO ACTION;
+2025-04-16 21:36:57.816 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250416143643_update_fk', N'9.0.0');
+2025-04-16 21:36:57.827 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-04-16 21:37:44.120 +07:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:37:44.154 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:37:44.172 +07:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:37:44.212 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:37:44.221 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:37:44.223 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:37:44.228 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:37:44.239 +07:00 [INF] Applying migration '20250416143736_Isdeleted_user'.
+2025-04-16 21:37:44.279 +07:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Users] ADD [IsDeleted] int NOT NULL DEFAULT 0;
+2025-04-16 21:37:44.282 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250416143736_Isdeleted_user', N'9.0.0');
+2025-04-16 21:37:44.290 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-04-16 21:40:22.000 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:40:22.035 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-16 21:40:22.051 +07:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-16 21:40:22.090 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-16 21:40:22.098 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-04-16 21:40:22.100 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-16 21:40:22.106 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-16 21:40:22.116 +07:00 [INF] Applying migration '20250416144015_change type isdeleted_user'.
+2025-04-16 21:40:22.184 +07:00 [INF] Executed DbCommand (39ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Users]') AND [c].[name] = N'IsDeleted');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [Users] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [Users] ALTER COLUMN [IsDeleted] bit NOT NULL;
+2025-04-16 21:40:22.187 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250416144015_change type isdeleted_user', N'9.0.0');
+2025-04-16 21:40:22.193 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-04-16 21:42:42.964 +07:00 [INF] User profile is available. Using 'C:\Users\scale\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-04-16 21:42:43.131 +07:00 [INF] Now listening on: http://localhost:5244
+2025-04-16 21:42:43.202 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-16 21:42:43.204 +07:00 [INF] Hosting environment: Development
+2025-04-16 21:42:43.205 +07:00 [INF] Content root path: D:\Final Project\ForumBackEnd\ForumBackEnd\WebApplication1
+2025-04-16 21:42:43.666 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/swagger/index.html - null null
+2025-04-16 21:42:43.860 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/swagger/index.html - 200 null text/html;charset=utf-8 204.3125ms
+2025-04-16 21:42:43.908 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/_framework/aspnetcore-browser-refresh.js - null null
+2025-04-16 21:42:43.908 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/_vs/browserLink - null null
+2025-04-16 21:42:43.915 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/_framework/aspnetcore-browser-refresh.js - 200 13750 application/javascript; charset=utf-8 7.5352ms
+2025-04-16 21:42:43.949 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/_vs/browserLink - 200 null text/javascript; charset=UTF-8 41.9453ms
+2025-04-16 21:42:44.117 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5244/swagger/v1/swagger.json - null null
+2025-04-16 21:42:44.267 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5244/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 150.0792ms
+2025-04-16 21:42:54.045 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5244/api/auth/register - application/json 142
+2025-04-16 21:42:54.052 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-04-16 21:42:54.780 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.AuthController.RegisterUser (ForumBE)'
+2025-04-16 21:42:54.803 +07:00 [INF] Route matched with {action = "RegisterUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] RegisterUser(ForumBE.DTOs.Auth.Register.RegisterRequestDto) on controller ForumBE.Controllers.AuthController (ForumBE).
+2025-04-16 21:42:56.182 +07:00 [INF] Executed DbCommand (89ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 21:42:56.427 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 100), @p2='?' (Size = 100), @p3='?' (DbType = Boolean), @p4='?' (DbType = Boolean), @p5='?' (Size = 100), @p6='?' (Size = 255), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Users] ([CreatedAt], [Email], [FirstName], [IsActive], [IsDeleted], [LastName], [PasswordHash], [RoleId], [UpdatedAt])
+OUTPUT INSERTED.[UserId]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+2025-04-16 21:42:56.459 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[Email] = @__email_0
+2025-04-16 21:42:56.509 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (Size = 100), @p1='?' (Size = 255), @p2='?' (Size = 500), @p3='?' (DbType = DateTime2), @p4='?' (Size = 20), @p5='?' (DbType = Boolean), @p6='?' (Size = 20), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [UserProfiles] ([Address], [AvatarUrl], [Bio], [DateOfBirth], [Gender], [IsProfilePublic], [PhoneNumber], [UserId])
+OUTPUT INSERTED.[ProfileId]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7);
+2025-04-16 21:42:56.520 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 21:42:56.534 +07:00 [INF] Executed action ForumBE.Controllers.AuthController.RegisterUser (ForumBE) in 1725.1554ms
+2025-04-16 21:42:56.536 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.AuthController.RegisterUser (ForumBE)'
+2025-04-16 21:42:56.543 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5244/api/auth/register - 200 null application/json; charset=utf-8 2498.2067ms
+2025-04-16 21:43:32.607 +07:00 [INF] Request starting HTTP/1.1 DELETE http://localhost:5244/api/User/5 - multipart/form-data; boundary=--------------------------937870320262265102403071 172
+2025-04-16 21:43:32.733 +07:00 [INF] Fetching user by ID: 1
+2025-04-16 21:43:32.757 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt], [u0].[ProfileId], [u0].[Address], [u0].[AvatarUrl], [u0].[Bio], [u0].[DateOfBirth], [u0].[Gender], [u0].[IsProfilePublic], [u0].[PhoneNumber], [u0].[UserId], [r].[RoleId], [r].[CreatedAt], [r].[RoleName], [r].[UpdatedAt]
+FROM [Users] AS [u]
+LEFT JOIN [UserProfiles] AS [u0] ON [u].[UserId] = [u0].[UserId]
+INNER JOIN [Roles] AS [r] ON [u].[RoleId] = [r].[RoleId]
+WHERE [u].[UserId] = @__userId_0
+2025-04-16 21:43:32.769 +07:00 [INF] Executing endpoint 'ForumBE.Controllers.UserController.DeleteUser (ForumBE)'
+2025-04-16 21:43:32.775 +07:00 [INF] Route matched with {action = "DeleteUser", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[ForumBE.Response.ResponseBase] DeleteUser(Int32) on controller ForumBE.Controllers.UserController (ForumBE).
+2025-04-16 21:43:32.792 +07:00 [INF] Deleting user with ID: 5
+2025-04-16 21:43:32.811 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[RoleId], [u].[UpdatedAt]
+FROM [Users] AS [u]
+WHERE [u].[UserId] = @__p_0
+2025-04-16 21:43:32.814 +07:00 [INF] Executing ObjectResult, writing value of type 'ForumBE.Response.ResponseBase'.
+2025-04-16 21:43:32.815 +07:00 [INF] Executed action ForumBE.Controllers.UserController.DeleteUser (ForumBE) in 38.1212ms
+2025-04-16 21:43:32.816 +07:00 [INF] Executed endpoint 'ForumBE.Controllers.UserController.DeleteUser (ForumBE)'
+2025-04-16 21:43:32.817 +07:00 [INF] Request finished HTTP/1.1 DELETE http://localhost:5244/api/User/5 - 200 null application/json; charset=utf-8 212.754ms

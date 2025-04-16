@@ -1,15 +1,15 @@
-﻿using ForumBE.DTOs.Users;
+﻿using ForumBE.DTOs.Paginations;
+using ForumBE.Helpers;
 using ForumBE.Models;
 
 namespace ForumBE.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IGenericRepository<User>
     {
-        Task<IEnumerable<User>> GetAllUserAsync();
-        Task<User> GetUserByIdAsync(int id);
-        Task<User> GetUserByEmailAsync(string email);
-        Task AddUserAsync(User user);
-        Task SaveChangesAsync();
+        Task<PagedResult<User>> GetAllUserProfileAsync(PaginationParams input);
+        Task<User> GetProfileByIdAsync(int userId);
+        Task<User> GetByEmailAsync(string email);
+        Task ChangePasswordAsync(User user);
     }
 
 }

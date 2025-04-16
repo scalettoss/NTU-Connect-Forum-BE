@@ -26,8 +26,8 @@ namespace ForumBE.Models
         public bool IsScam { get; set; } = false;
 
         public bool IsReviewed { get; set; } = false;
-
-        public DateTime? CreatedAt { get; set; }
+        public string Status { get; set; } 
+        public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
 

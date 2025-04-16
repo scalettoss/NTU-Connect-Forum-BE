@@ -19,7 +19,7 @@ namespace ForumBE.Models
         [StringLength(255)]
         public string Content { get; set; }
 
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
 

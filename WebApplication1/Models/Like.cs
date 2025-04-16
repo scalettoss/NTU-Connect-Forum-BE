@@ -13,12 +13,10 @@ namespace ForumBE.Models
         public int UserId { get; set; }
 
         public int? PostId { get; set; }
-
         public int? CommentId { get; set; }
-
-        public DateTime? CreatedAt { get; set; }
+        public bool IsLike { get; set; } = false;
+        public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
 
         // Navigation properties
         [ForeignKey("UserId")]

@@ -61,6 +61,13 @@ namespace ForumBE.Migrations
                     b.Property<int?>("CommentId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileSize")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FileType")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -74,7 +81,7 @@ namespace ForumBE.Migrations
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("UploadedAt")
+                    b.Property<DateTime?>("UpdatdedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
@@ -84,11 +91,11 @@ namespace ForumBE.Migrations
 
                     b.HasIndex("CommentId");
 
+                    b.HasIndex("CreatedAt");
+
                     b.HasIndex("FileType");
 
                     b.HasIndex("PostId");
-
-                    b.HasIndex("UploadedAt");
 
                     b.HasIndex("UserId");
 
@@ -103,7 +110,7 @@ namespace ForumBE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookmarkId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("PostId")
@@ -134,7 +141,7 @@ namespace ForumBE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -147,7 +154,7 @@ namespace ForumBE.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime?>("UpdateAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
@@ -178,7 +185,7 @@ namespace ForumBE.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("PostId")
@@ -212,8 +219,11 @@ namespace ForumBE.Migrations
                     b.Property<int?>("CommentId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsLike")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
@@ -253,7 +263,10 @@ namespace ForumBE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<int?>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsRead")
@@ -261,17 +274,31 @@ namespace ForumBE.Migrations
 
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("NotificationId");
 
+                    b.HasIndex("CommentId");
+
                     b.HasIndex("CreatedAt");
 
                     b.HasIndex("IsRead");
+
+                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -294,7 +321,7 @@ namespace ForumBE.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsReviewed")
@@ -302,6 +329,10 @@ namespace ForumBE.Migrations
 
                     b.Property<bool>("IsScam")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -340,6 +371,9 @@ namespace ForumBE.Migrations
                     b.Property<int?>("CommentId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
 
@@ -348,7 +382,7 @@ namespace ForumBE.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime?>("ReportedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
@@ -358,9 +392,9 @@ namespace ForumBE.Migrations
 
                     b.HasIndex("CommentId");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("CreatedAt");
 
-                    b.HasIndex("ReportedAt");
+                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -375,22 +409,25 @@ namespace ForumBE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportStatusId"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("HandledBy")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsProcessed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("ProcessedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ReportId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReportStatusDescription")
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ReportStatusId");
 
@@ -412,10 +449,16 @@ namespace ForumBE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("RoleId");
 
@@ -438,7 +481,7 @@ namespace ForumBE.Migrations
                     b.Property<float>("ConfidenceScore")
                         .HasColumnType("real");
 
-                    b.Property<DateTime?>("DetectedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("ModelPrediction")
@@ -452,11 +495,14 @@ namespace ForumBE.Migrations
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("DetectionId");
 
                     b.HasIndex("AdminReviewed");
 
-                    b.HasIndex("DetectedAt");
+                    b.HasIndex("CreatedAt");
 
                     b.HasIndex("ModelPrediction");
 
@@ -473,7 +519,7 @@ namespace ForumBE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KeywordId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Keyword")
@@ -513,6 +559,9 @@ namespace ForumBE.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -526,7 +575,7 @@ namespace ForumBE.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("UpdateAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("UserId");
@@ -550,17 +599,14 @@ namespace ForumBE.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("AvatarUrl")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Bio")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -568,18 +614,13 @@ namespace ForumBE.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<bool>("IsProfilePublic")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("LastLoginAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -589,8 +630,6 @@ namespace ForumBE.Migrations
                     b.HasKey("ProfileId");
 
                     b.HasIndex("IsProfilePublic");
-
-                    b.HasIndex("LastLoginAt");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -606,8 +645,13 @@ namespace ForumBE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WarningId"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("IssuedBy")
                         .HasColumnType("int");
@@ -616,6 +660,9 @@ namespace ForumBE.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -700,7 +747,7 @@ namespace ForumBE.Migrations
                     b.HasOne("ForumBE.Models.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ForumBE.Models.User", "User")
@@ -739,11 +786,23 @@ namespace ForumBE.Migrations
 
             modelBuilder.Entity("ForumBE.Models.Notification", b =>
                 {
+                    b.HasOne("ForumBE.Models.Comment", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId");
+
+                    b.HasOne("ForumBE.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId");
+
                     b.HasOne("ForumBE.Models.User", "User")
                         .WithMany("Notifications")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });
@@ -753,7 +812,7 @@ namespace ForumBE.Migrations
                     b.HasOne("ForumBE.Models.Category", "Category")
                         .WithMany("Posts")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ForumBE.Models.User", "User")
@@ -771,11 +830,13 @@ namespace ForumBE.Migrations
                 {
                     b.HasOne("ForumBE.Models.Comment", "Comment")
                         .WithMany("Reports")
-                        .HasForeignKey("CommentId");
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ForumBE.Models.Post", "Post")
                         .WithMany("Reports")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ForumBE.Models.User", "User")
                         .WithMany("Reports")
@@ -800,7 +861,7 @@ namespace ForumBE.Migrations
                     b.HasOne("ForumBE.Models.Report", "Report")
                         .WithOne("ReportStatus")
                         .HasForeignKey("ForumBE.Models.ReportStatus", "ReportId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Handler");
@@ -833,7 +894,7 @@ namespace ForumBE.Migrations
             modelBuilder.Entity("ForumBE.Models.UserProfile", b =>
                 {
                     b.HasOne("ForumBE.Models.User", "User")
-                        .WithOne("UserProfiles")
+                        .WithOne("UserProfile")
                         .HasForeignKey("ForumBE.Models.UserProfile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -921,7 +982,7 @@ namespace ForumBE.Migrations
 
                     b.Navigation("Reports");
 
-                    b.Navigation("UserProfiles")
+                    b.Navigation("UserProfile")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

@@ -11,5 +11,8 @@ namespace ForumBE.Models
 
         [StringLength(50)]
         public string RoleName { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
     }
 }

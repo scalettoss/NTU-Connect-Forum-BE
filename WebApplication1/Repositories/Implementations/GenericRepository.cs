@@ -1,4 +1,5 @@
-﻿using ForumBE.Models;
+﻿using ForumBE.Helpers;
+using ForumBE.Models;
 using ForumBE.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,6 +42,22 @@ namespace ForumBE.Repositories.Implementations
         {
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task AddRangeAsync(IEnumerable<T> attachments)
+        {
+            await _dbSet.AddRangeAsync(attachments);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteRangeAsync(IEnumerable<T> entities)
+        {
+            _dbSet.RemoveRange(entities);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<PagedResult<T>> GetPagedListAsync(int pageIndex, int pageSize)
+        {
+            return await _dbSet.AsNoTracking().ToPagedListAsync(pageIndex, pageSize);
         }
     }
 }

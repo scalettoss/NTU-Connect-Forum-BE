@@ -13,6 +13,6 @@ namespace ForumBE.Models
         [StringLength(100)]
         public string Keyword { get; set; }
 
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

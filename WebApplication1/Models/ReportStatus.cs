@@ -14,13 +14,14 @@ namespace ForumBE.Models
 
         [Required]
         [StringLength(20)]
-        public string ReportStatusDescription { get; set; }
+        public string Status { get; set; }
 
-        public bool IsProcessed { get; set; } = false;
+        public bool IsProcessed { get; set; }
 
         public int? HandledBy { get; set; }
 
-        public DateTime? ProcessedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         // Navigation properties
         [ForeignKey("ReportId")]

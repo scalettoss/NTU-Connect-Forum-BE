@@ -18,13 +18,14 @@ namespace ForumBE.Models
         [Required]
         public float ConfidenceScore { get; set; }
 
-        public DateTime? DetectedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [Required]
         [StringLength(50)]
         public string ModelVersion { get; set; }
 
-        public bool AdminReviewed { get; set; } = false;
+        public bool AdminReviewed { get; set; }
 
         // Navigation properties
         [ForeignKey("PostId")]

@@ -1,7 +1,7 @@
-﻿using ForumBE.Auth.Login;
-using ForumBE.Auth.Register;
+﻿using ForumBE.Auth;
 using ForumBE.DTOs.Auth.Login;
 using ForumBE.DTOs.Auth.Register;
+using ForumBE.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,28 +13,30 @@ namespace ForumBE.Controllers
     [Authorize]
     public class AuthController : ControllerBase
     {
-        private readonly JwtService _jwtService;
-        private readonly RegisterService _registerService;
-        public AuthController(RegisterService registerService,JwtService jwtService)
+        private readonly AuthService _authService;
+        public AuthController(AuthService authService)
         {
-            _registerService = registerService;
-            _jwtService = jwtService;
+            _authService = authService;   
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<RegisterResponseDto> RegisterUser([FromBody] RegisterRequestDto input)
+        public async Task<ResponseBase> RegisterUser([FromBody] RegisterRequestDto input)
         {
-            var result = await _registerService.RegisterUserAsync(input);
-            return result;
+            var isCreated = await _authService.RegisterUserAsync(input);
+            if(!isCreated)
+            {
+                return ResponseBase.Fail("User created failed", 400);
+            }
+            return ResponseBase.Success("User created successfully");
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<LoginResponseDto> LoginUser([FromBody] LoginRequestDto input)
+        public async Task<ResponseBase> LoginUser([FromBody] LoginRequestDto input)
         {
-            var result = await _jwtService.Authenticate(input);
-            return result;
+            var result = await _authService.Authenticate(input);
+            return ResponseBase.Success(result);
         }
 
     }

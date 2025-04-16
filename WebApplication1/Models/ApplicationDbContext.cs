@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ForumBE.Models
 {
@@ -35,7 +35,14 @@ namespace ForumBE.Models
                 .IsUnique();
 
             modelBuilder.Entity<User>()
+                .HasOne(u => u.UserProfile) 
+                .WithOne(p => p.User)       
+                .HasForeignKey<UserProfile>(p => p.UserId) 
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
                 .HasIndex(u => u.IsActive);
+
 
             modelBuilder.Entity<Role>()
                 .HasIndex(r => r.RoleId);
@@ -48,8 +55,7 @@ namespace ForumBE.Models
             modelBuilder.Entity<UserProfile>()
                 .HasIndex(up => up.IsProfilePublic);
 
-            modelBuilder.Entity<UserProfile>()
-                .HasIndex(up => up.LastLoginAt);
+            
 
             // Configure unique constraints and indexes for Category
             modelBuilder.Entity<Category>()
@@ -100,7 +106,7 @@ namespace ForumBE.Models
                 .HasIndex(sd => sd.AdminReviewed);
 
             modelBuilder.Entity<ScamDetection>()
-                .HasIndex(sd => sd.DetectedAt);
+                .HasIndex(sd => sd.CreatedAt);
 
             // Configure indexes for Report
             modelBuilder.Entity<Report>()
@@ -113,7 +119,7 @@ namespace ForumBE.Models
                 .HasIndex(r => r.CommentId);
 
             modelBuilder.Entity<Report>()
-                .HasIndex(r => r.ReportedAt);
+                .HasIndex(r => r.CreatedAt);
 
             // Configure indexes for ReportStatus
             modelBuilder.Entity<ReportStatus>()
@@ -139,12 +145,6 @@ namespace ForumBE.Models
             // Configure indexes for Like
             modelBuilder.Entity<Like>()
                 .HasIndex(l => l.UserId);
-
-            modelBuilder.Entity<Like>()
-                .HasIndex(l => l.PostId);
-
-            modelBuilder.Entity<Like>()
-                .HasIndex(l => l.CommentId);
 
             modelBuilder.Entity<Like>()
                 .HasIndex(l => l.CreatedAt);
@@ -209,14 +209,7 @@ namespace ForumBE.Models
                 .HasIndex(a => a.FileType);
 
             modelBuilder.Entity<Attachment>()
-                .HasIndex(a => a.UploadedAt);
-
-            // Configure relationships with cascade delete
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.UserProfiles)
-                .WithOne(up => up.User)
-                .HasForeignKey<UserProfile>(up => up.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasIndex(a => a.CreatedAt);
 
             // Fix for multiple cascade paths - change cascade delete to restrict for these relationships
             modelBuilder.Entity<Post>()
@@ -229,7 +222,7 @@ namespace ForumBE.Models
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Posts)
                 .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
@@ -241,7 +234,7 @@ namespace ForumBE.Models
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Category>()
                 .HasOne(c => c.User)
@@ -272,13 +265,13 @@ namespace ForumBE.Models
                 .HasOne(r => r.Post)
                 .WithMany(p => p.Reports)
                 .HasForeignKey(r => r.PostId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Report>()
                 .HasOne(r => r.Comment)
                 .WithMany(c => c.Reports)
                 .HasForeignKey(r => r.CommentId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Report>()
                 .HasOne(r => r.User)
@@ -352,7 +345,7 @@ namespace ForumBE.Models
                 .HasOne(rs => rs.Report)
                 .WithOne(r => r.ReportStatus)
                 .HasForeignKey<ReportStatus>(rs => rs.ReportId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ReportStatus>()
                 .HasOne(rs => rs.Handler)

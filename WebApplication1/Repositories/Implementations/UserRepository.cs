@@ -1,7 +1,9 @@
-﻿using ForumBE.DTOs.Users;
+﻿using ForumBE.DTOs.Paginations;
+using ForumBE.Helpers;
 using ForumBE.Models;
 using ForumBE.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ForumBE.Repositories.Implementations
 {
@@ -9,46 +11,42 @@ namespace ForumBE.Repositories.Implementations
     {
         public UserRepository(ApplicationDbContext context) : base(context)
         {
-        }
 
-        public async Task<IEnumerable<User>> GetAllUserAsync()
-        {
-            var list = await _context.Users
-                .Include(u => u.UserProfiles).ToListAsync();
-            return list;
         }
-
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetByEmailAsync(string email)
         {
             var user = await _context.Users
-                .Include(u => u.UserProfiles)
-                .FirstOrDefaultAsync(u => u.UserId == id);
-            return user;
-        }
-
-        public async Task<User> GetUserByEmailAsync(string email)
-        {
-            var user = await _context.Users
-                .Include(u => u.UserProfiles)
-                .Include(u => u.Role)  
+                .Include(u => u.UserProfile)
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Email == email);
+
             return user;
         }
-
-        public async Task AddUserAsync(User user)
+        public async Task ChangePasswordAsync(User user)
         {
-            await _context.Users.AddAsync(user);
+            _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
 
-        public Task SaveChangesAsync()
+        public async Task<User> GetProfileByIdAsync(int userId)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users
+                .Include(u => u.UserProfile)
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            return user;
         }
 
-        public Task<string> GetRoleByEmail(string email)
+        public async Task<PagedResult<User>> GetAllUserProfileAsync(PaginationParams input)
         {
-            throw new NotImplementedException();
+            var query = _context.Users
+                .Include(u => u.UserProfile)
+                .Include(u => u.Role)
+                .AsNoTracking();
+
+            return await query.ToPagedListAsync(input.PageIndex, input.PageSize);
         }
+
     }
 }

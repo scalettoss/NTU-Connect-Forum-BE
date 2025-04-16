@@ -23,19 +23,20 @@ namespace ForumBE.Models
         [Required]
         [StringLength(255)]
         public string PasswordHash { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime? UpdateAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public bool IsActive { get; set; } = true;
 
         public int RoleId { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         // Navigation property
         [ForeignKey("RoleId")]
         public virtual Role Role { get; set; }
-
-        public virtual UserProfile UserProfiles { get; set; }
+        [InverseProperty("User")]
+        public virtual UserProfile UserProfile { get; set; }
 
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

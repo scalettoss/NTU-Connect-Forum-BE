@@ -15,3 +15,4 @@ appsettings.json
 appsettings.Development.json
 
 WebApplication1/Properties/launchSettings.json
+/WebApplication1/wwwroot

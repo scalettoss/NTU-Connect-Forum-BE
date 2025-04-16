@@ -19,14 +19,13 @@ namespace ForumBE.Models
         [StringLength(255)]
         public string Description { get; set; }
 
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public DateTime? UpdateAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         // Navigation properties
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
-
         public virtual ICollection<Post> Posts { get; set; }
     }
 }

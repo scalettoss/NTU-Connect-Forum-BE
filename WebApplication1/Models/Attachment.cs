@@ -24,9 +24,12 @@ namespace ForumBE.Models
         [StringLength(50)]
         public string FileType { get; set; }
 
-        public DateTime? UploadedAt { get; set; }
+        [Required]
+        public string FileSize { get; set; }
 
-        // Navigation properties
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatdedAt { get; set; }
+
         [ForeignKey("PostId")]
         public virtual Post Post { get; set; }
 
