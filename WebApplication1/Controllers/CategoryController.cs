@@ -1,4 +1,5 @@
 ﻿using ForumBE.DTOs.Categories;
+using ForumBE.DTOs.Paginations;
 using ForumBE.Helpers;
 using ForumBE.Response;
 using ForumBE.Services.Category;
@@ -18,15 +19,23 @@ namespace ForumBE.Controllers
             _categoryService = categoryService;
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AllowAnonymous]
         [HttpGet]
-        public async Task<ResponseBase> GetAllCategory()
+        public async Task<ResponseBase> GetAllCategory([FromQuery] PaginationDto request)
         {
-            var catogories = await _categoryService.GetAllCategoriesAsync();
+            var catogories = await _categoryService.GetAllCategoriesAsync(request);
             return ResponseBase.Success(catogories);
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AllowAnonymous]
+        [HttpGet("slug/{slug}")]
+        public async Task<ResponseBase> GetCategoryById(string slug)
+        {
+            var category = await _categoryService.GetCategoryBySlugAsync(slug);
+            return ResponseBase.Success(category);
+        }
+
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ResponseBase> GetCategoryById(int id)
         {
@@ -34,7 +43,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(category);
         }
 
-        [AuthorizeRoles(ConstantsString.Moderator)]
+        [AuthorizeRoles(ConstantString.Moderator)]
         [HttpPost]
         public async Task<ResponseBase> CreateCategory([FromBody] CategoryCreateRequestDto input)
         {
@@ -46,7 +55,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success("Created category successfully.");
         }
 
-        [AuthorizeRoles(ConstantsString.Moderator)]
+        [AuthorizeRoles(ConstantString.Moderator)]
         [HttpPut("{id}")]
         public async Task<ResponseBase> UpdateCategory(int id, [FromBody] CategoryUpdateRequestDto input)
         {
@@ -58,7 +67,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success("Update category successfully");
         }
 
-        [AuthorizeRoles(ConstantsString.Moderator)]
+        [AuthorizeRoles(ConstantString.Moderator)]
         [HttpDelete("{id}")]
         public async Task<ResponseBase> DeleteCategory(int id)
         {

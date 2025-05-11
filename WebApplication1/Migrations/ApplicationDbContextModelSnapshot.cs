@@ -38,6 +38,9 @@ namespace ForumBE.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -70,13 +73,16 @@ namespace ForumBE.Migrations
 
                     b.Property<string>("FileType")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FileUrl")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
@@ -112,6 +118,9 @@ namespace ForumBE.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -149,10 +158,18 @@ namespace ForumBE.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -166,6 +183,8 @@ namespace ForumBE.Migrations
 
                     b.HasIndex("Name")
                         .IsUnique();
+
+                    b.HasIndex("Slug");
 
                     b.HasIndex("UserId");
 
@@ -188,7 +207,13 @@ namespace ForumBE.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReplyTo")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -222,7 +247,7 @@ namespace ForumBE.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsLike")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int?>("PostId")
@@ -268,6 +293,9 @@ namespace ForumBE.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
@@ -324,11 +352,15 @@ namespace ForumBE.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsReviewed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsScam")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -351,9 +383,9 @@ namespace ForumBE.Migrations
 
                     b.HasIndex("CreatedAt");
 
-                    b.HasIndex("IsReviewed");
-
                     b.HasIndex("IsScam");
+
+                    b.HasIndex("Slug");
 
                     b.HasIndex("UserId");
 
@@ -373,6 +405,9 @@ namespace ForumBE.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
@@ -415,6 +450,9 @@ namespace ForumBE.Migrations
                     b.Property<int?>("HandledBy")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsProcessed")
                         .HasColumnType("bit");
 
@@ -452,6 +490,9 @@ namespace ForumBE.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -483,6 +524,9 @@ namespace ForumBE.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("ModelPrediction")
                         .HasColumnType("bit");
@@ -653,6 +697,9 @@ namespace ForumBE.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("IssuedBy")
                         .HasColumnType("int");
 
@@ -693,11 +740,13 @@ namespace ForumBE.Migrations
                 {
                     b.HasOne("ForumBE.Models.Comment", "Comment")
                         .WithMany("Attachments")
-                        .HasForeignKey("CommentId");
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("ForumBE.Models.Post", "Post")
                         .WithMany("Attachments")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ForumBE.Models.User", "User")
                         .WithMany("Attachments")

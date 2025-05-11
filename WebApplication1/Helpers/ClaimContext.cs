@@ -19,7 +19,7 @@ namespace ForumBE.Helpers
                 .FirstOrDefault(c => c.Type == "UserId")?.Value;
             if (string.IsNullOrEmpty(userIdClaim))
             {
-                throw new HandleException("User is not authorized!", 401);
+                return 0;
             }
 
             if (!int.TryParse(userIdClaim, out var userId))

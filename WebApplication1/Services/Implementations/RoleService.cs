@@ -46,7 +46,7 @@ namespace ForumBE.Services.Implementations
                     throw new HandleException("Role has existing", 400);
                 }
                 var roleEntity = _mapper.Map<Role>(input);
-                roleEntity.CreatedAt = DateTime.UtcNow;
+                roleEntity.CreatedAt = DateTime.Now;
                 await _roleRepository.AddAsync(roleEntity);
 
                 return true;
@@ -67,7 +67,7 @@ namespace ForumBE.Services.Implementations
                     throw new HandleException("Role not found", 404);
                 }
                 var roleEntity = _mapper.Map<Role>(input);
-                roleEntity.UpdatedAt = DateTime.UtcNow;
+                roleEntity.UpdatedAt = DateTime.Now;
                 await _roleRepository.UpdateAsync(roleEntity);
 
                 return true;

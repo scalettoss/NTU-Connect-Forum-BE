@@ -19,6 +19,7 @@ namespace ForumBE.Models
         public DateTime? UpdatedAt { get; set; }
         public int? PostId { get; set; }
         public int? CommentId { get; set; }
+        public bool IsDeleted { get; set; }
 
         // Navigation properties
         [ForeignKey("UserId")]

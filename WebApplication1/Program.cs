@@ -1,6 +1,4 @@
-﻿
-using ForumBE.Auth;
-using ForumBE.Helpers;
+﻿using ForumBE.Helpers;
 using ForumBE.Mappings;
 using ForumBE.Middlewares;
 using ForumBE.Models;
@@ -19,6 +17,21 @@ using System.Text;
 using Serilog;
 using ForumBE.Services.Category;
 using ForumBE.Services.Post;
+using Microsoft.Extensions.FileProviders;
+using ForumBE.SignalR;
+using ForumBE.Repositories.Users;
+using ForumBE.Repositories.Categories;
+using ForumBE.Repositories.Posts;
+using ForumBE.Repositories.Comments;
+using ForumBE.Services.Comments;
+using ForumBE.Repositories.Likes;
+using ForumBE.Repositories.ActivitiesLog;
+using ForumBE.Services.ActivitiesLog;
+using ForumBE.Services.Auth;
+using ForumBE.Repositories.Bookmarks;
+using ForumBE.Services.Bookmarks;
+using ForumBE.Repositories.Notifications;
+using ForumBE.Services.Notifications;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,18 +76,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFE", policy =>
-    {
-        policy.WithOrigins("http://localhost:3000") 
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000") 
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials(); 
+        });
 });
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    
 }).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
@@ -95,10 +111,13 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("UserPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "1"));
-    options.AddPolicy("ModeratorPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "2"));
-    options.AddPolicy("AdminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "3"));
+    options.AddPolicy("RequireModerator", policy => policy.RequireRole("Moderator", "Admin"));
+    options.AddPolicy("RequireAdmin", policy => policy.RequireRole("Admin"));
 });
+
+
+builder.Services.AddSignalR();
+
 
 builder.Services.AddAutoMapper(typeof(UserMappings));
 
@@ -160,6 +179,9 @@ builder.Services.AddScoped<IWarningService, WarningService>();
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<AuthService>();
+
+builder.Services.AddScoped<NotificationHub>();
+
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
@@ -169,6 +191,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+    RequestPath = "",  // Điều này sẽ map thư mục wwwroot trực tiếp vào root path
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=86400");
+    }
+});
+
+app.UseCors("AllowFrontend");
 
 
 app.UseHttpsRedirection();
@@ -179,14 +213,15 @@ app.UseMiddleware<HandlingAuthentication>();
 
 app.UseAuthorization();
 
+app.MapHub<NotificationHub>("/notificationhub");
+
 app.UseMiddleware<HandlingValidation>();
 
 app.UseMiddleware<HandlingException>();
 
 app.MapControllers();
 
-app.UseCors("AllowFE");
 
-app.UseStaticFiles();
+
 
 app.Run();

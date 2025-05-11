@@ -8,6 +8,8 @@ namespace ForumBE.Mappings
     {
         public PaginationMappings() 
         {
+            CreateMap(typeof(PagedList<>), typeof(PagedList<>))
+                .ConvertUsing(typeof(PageListConverter<,>));
         }
     }
 }

@@ -62,7 +62,7 @@ namespace ForumBE.Services.Implementations
             var reportStatus = _mapper.Map<ReportStatus>(input);
             reportStatus.Status = "Pending";
             reportStatus.IsProcessed = false;
-            reportStatus.CreatedAt = DateTime.UtcNow;
+            reportStatus.CreatedAt = DateTime.Now;
             reportStatus.HandledBy = null;
 
             await _reportStatusRepository.AddAsync(reportStatus);
@@ -78,7 +78,7 @@ namespace ForumBE.Services.Implementations
                 throw new HandleException("ReportStatus not found.", 404);
             }
             _mapper.Map(input, reportStatus);
-            reportStatus.UpdatedAt = DateTime.UtcNow;
+            reportStatus.UpdatedAt = DateTime.Now;
             reportStatus.HandledBy = userId;
             reportStatus.IsProcessed = true;
             await _reportStatusRepository.UpdateAsync(reportStatus);

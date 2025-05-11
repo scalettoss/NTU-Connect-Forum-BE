@@ -1,4 +1,5 @@
 ﻿using ForumBE.Services.User;
+using Microsoft.AspNetCore.Authorization;
 using System.Text.Json;
 
 namespace ForumBE.Middlewares
@@ -14,15 +15,16 @@ namespace ForumBE.Middlewares
             _logger = logger;
         }
 
-        public async Task InvokeAsync(HttpContext context)
-        {
-            var bypassPaths = new[] { "/api/auth/login", "/api/auth/register" };
 
-            if (bypassPaths.Any(path => context.Request.Path.StartsWithSegments(path, StringComparison.OrdinalIgnoreCase)))
+        public async Task InvokeAsync(HttpContext context) 
+        {
+            var endpoint = context.GetEndpoint();
+            if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
             {
                 await _next(context);
                 return;
             }
+
 
             if (context.User.Identity?.IsAuthenticated != true)
             {
@@ -32,7 +34,7 @@ namespace ForumBE.Middlewares
                 await context.Response.WriteAsync(JsonSerializer.Serialize(new
                 {
                     status = 401,
-                    message = "Unauthorized"
+                    message = "Vui lòng đăng nhập"
                 }));
                 return;
             }
@@ -63,7 +65,7 @@ namespace ForumBE.Middlewares
                 await context.Response.WriteAsync(JsonSerializer.Serialize(new
                 {
                     status = 404,
-                    message = "User not found!"
+                    message = "Không tìm thấy người dùng"
                 }));
                 return;
             }
@@ -76,7 +78,20 @@ namespace ForumBE.Middlewares
                 await context.Response.WriteAsync(JsonSerializer.Serialize(new
                 {
                     status = 403,
-                    message = "Account is banned."
+                    message = "Tài khoản đã bị khóa"
+                }));
+                return;
+            }
+
+            if (user.IsDeleted)
+            {
+                _logger.LogWarning("Account has been removed: UserId = {UserId}", userId);
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonSerializer.Serialize(new
+                {
+                    status = 400,
+                    message = "Tài khoản đã bị xóa"
                 }));
                 return;
             }

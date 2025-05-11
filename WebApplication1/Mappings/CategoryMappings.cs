@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ForumBE.DTOs.Categories;
+using ForumBE.Helpers;
 using ForumBE.Models;
 
 namespace ForumBE.Mappings
@@ -8,7 +9,8 @@ namespace ForumBE.Mappings
     {
         public CategoryMappings()
         {
-            CreateMap<Category, CategoriesResponseDto>();
+            CreateMap<Category, CategoryResponseDto>()
+                .ForMember(dest => dest.CountTotalPost, opt => opt.MapFrom(src => src.Posts.Count(p => p.Status == ConstantString.Approved && p.IsDeleted == false)));
             CreateMap<CategoryCreateRequestDto, Category>();
             CreateMap<CategoryUpdateRequestDto, Category>();
         }

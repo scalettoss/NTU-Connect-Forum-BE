@@ -1,8 +1,9 @@
 ﻿using ForumBE.DTOs.Comments;
+using ForumBE.DTOs.Paginations;
 using ForumBE.Helpers;
 using ForumBE.Response;
+using ForumBE.Services.Comments;
 using ForumBE.Services.Implementations;
-using ForumBE.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,15 +21,23 @@ namespace ForumBE.Controllers
             _commentService = commentService;
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AuthorizeRoles(ConstantString.Admin)]
         [HttpGet]
-        public async Task<ResponseBase> GetAllComments()
+        public async Task<ResponseBase> GetAllComments([FromQuery] PaginationDto request)
         {
-            var comments = await _commentService.GetAllCommentsAsync();
+            var comments = await _commentService.GetAllCommentsAsync(request);
             return ResponseBase.Success(comments);
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AllowAnonymous]
+        [HttpGet("by-post/{id}")]
+        public async Task<ResponseBase> GetAllCommentsByPost([FromQuery] PaginationDto request, int id)
+        {
+            var comments = await _commentService.GetAllCommentsByPostAsync(request, id);
+            return ResponseBase.Success(comments);
+        }
+
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ResponseBase> GetCommentById(int id)
         {
@@ -36,23 +45,19 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(comment);
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AuthorizeRoles(ConstantString.User)]
         [HttpPost]
-        public async Task<ResponseBase> CreateComment([FromBody] CommentCreateRequestDto input)
+        public async Task<ResponseBase> CreateComment([FromBody] CommentCreateRequestDto request)
         {
-            var isCreated = await _commentService.CreateCommentAsync(input);
-            if (!isCreated)
-            {
-                return ResponseBase.Fail("Created comment failed.");
-            }
-            return ResponseBase.Success("Created comment successfully");
+            var comments = await _commentService.CreateCommentAsync(request);
+            return ResponseBase.Success(comments);
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AuthorizeRoles(ConstantString.User)]
         [HttpPut("{id}")]
-        public async Task<ResponseBase> UpdateComment(int id, [FromBody] CommentUpdateRequestDto input)
+        public async Task<ResponseBase> UpdateComment(int id, [FromBody] CommentUpdateRequestDto request)
         {
-            var isUpdated = await _commentService.UpdateCommentAsync(id, input);
+            var isUpdated = await _commentService.UpdateCommentAsync(request, id);
             if (!isUpdated)
             {
                 return ResponseBase.Fail("Update comment failed.");
@@ -60,11 +65,11 @@ namespace ForumBE.Controllers
             return ResponseBase.Success("Update comment successfully");
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
-        [HttpDelete("{id}")]
-        public async Task<ResponseBase> DeleteComment(int id)
+        [AuthorizeRoles(ConstantString.User)]
+        [HttpDelete()]
+        public async Task<ResponseBase> DeleteComment([FromQuery] int id, [FromQuery] int userId)
         {
-            var isDeleted = await _commentService.DeleteCommentAsync(id);
+            var isDeleted = await _commentService.DeleteCommentAsync(id, userId);
             if (!isDeleted)
             {
                 return ResponseBase.Fail("Delete comment failed.");

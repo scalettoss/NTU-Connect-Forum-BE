@@ -1,5 +1,6 @@
 ﻿using ForumBE.DTOs.Roles;
 using ForumBE.Models;
+using ForumBE.Repositories.Generics;
 using ForumBE.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

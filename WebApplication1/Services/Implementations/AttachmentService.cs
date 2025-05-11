@@ -3,7 +3,10 @@ using ForumBE.DTOs.Attachments;
 using ForumBE.DTOs.Exception;
 using ForumBE.Helpers;
 using ForumBE.Models;
+using ForumBE.Repositories.Comments;
 using ForumBE.Repositories.Interfaces;
+using ForumBE.Repositories.Posts;
+using ForumBE.Repositories.Users;
 using ForumBE.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -87,10 +90,10 @@ namespace ForumBE.Services.Implementations
                     throw new HandleException("No files uploaded.", 400);
                 }
 
-                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".pdf", ".docx" };
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".pdf", ".docx", ".txt" };
                 const long MaxFileSize = 10 * 1024 * 1024; // 10MB
-                var dateFolder = DateTime.UtcNow.ToString("yyyyMMdd");
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/public/uploads", dateFolder);
+                var dateFolder = DateTime.Now.ToString("yyyyMMdd");
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", dateFolder);
 
                 // Tạo thư mục nếu chưa tồn tại
                 if (!Directory.Exists(uploadsFolder))
@@ -148,7 +151,7 @@ namespace ForumBE.Services.Implementations
                         FileUrl = fileUrl,
                         FileType = file.ContentType,
                         FileSize = fileSizeInMB,
-                        CreatedAt = DateTime.UtcNow,
+                        CreatedAt = DateTime.Now,
                     };
 
                     attachments.Add(attachment);
@@ -184,11 +187,11 @@ namespace ForumBE.Services.Implementations
                     throw new HandleException("Attachment not found.", 404);
                 }
 
-                
+
 
                 try
                 {
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/public", attachment.FileUrl.TrimStart('/'));
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", attachment.FileUrl.TrimStart('/'));
 
                     if (File.Exists(filePath))
                     {

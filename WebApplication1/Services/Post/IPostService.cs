@@ -6,10 +6,12 @@ namespace ForumBE.Services.Post
 {
     public interface IPostService
     {
-        Task<PaginationData<PostResponseDto>> GetAllPostsAsync(PaginationParams input);
-        Task<PaginationData<PostResponseDto>> GetAllPostByCategoryIdAsync(int categoryId, PaginationParams input);
+        Task<PagedList<PostResponseDto>> GetAllPostsAsync(PaginationDto input);
+        Task<PagedList<PostResponseDto>> GetAllPostByCategoryAsync(PaginationDto input, string categoryName);
+        Task<IEnumerable<PostResponseDto>> GetLatestPostsAsync(string? sortBy);
         Task<PostResponseDto> GetPostByIdAsync(int postId);
-        Task<bool> CreatePostAsync(PostCreateRequestDto request);
+        Task<PostResponseDto> GetPostBySlugAsync(string slug);
+        Task<int> CreatePostAsync(PostCreateRequestDto request);
         Task<bool> UpdatePostAsync(int postId, PostUpdateRequest request);
         Task<bool> DeletePostAsync(int postId);
     }

@@ -4,7 +4,6 @@
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string? AvatarUrl { get; set; } = "/images/default_avatar.png";
         public IFormFile? AvatarFile { get; set; }
         public string? Bio { get; set; }
         public string? Address { get; set; }

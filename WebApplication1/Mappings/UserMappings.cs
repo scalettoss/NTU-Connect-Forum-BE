@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ForumBE.DTOs.Auth;
+using ForumBE.DTOs.Paginations;
 using ForumBE.DTOs.Users;
 using ForumBE.Models;
 
@@ -17,6 +17,7 @@ namespace ForumBE.Mappings
                 .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<UserUpdateProfilesRequestDto, UserProfile>()
                 .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+            
         }
     }
 }

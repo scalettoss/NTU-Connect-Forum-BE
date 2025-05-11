@@ -5,7 +5,8 @@ using ForumBE.DTOs.Posts;
 using ForumBE.DTOs.Posts.ForumBE.DTOs.Posts;
 using ForumBE.Helpers;
 using ForumBE.Models;
-using ForumBE.Repositories.Interfaces;
+using ForumBE.Repositories.Categories;
+using ForumBE.Repositories.Posts;
 
 namespace ForumBE.Services.Post
 {
@@ -22,7 +23,7 @@ namespace ForumBE.Services.Post
             IMapper mapper,
             ICategoryRepository categoryRepository,
             ClaimContext claimContext,
-            ILogger<PostService> logger) // injected ILogger<PostService>
+            ILogger<PostService> logger)
         {
             _postRepository = postRepository;
             _mapper = mapper;
@@ -31,59 +32,66 @@ namespace ForumBE.Services.Post
             _logger = logger;
         }
 
-        public async Task<PaginationData<PostResponseDto>> GetAllPostsAsync(PaginationParams input)
+        public async Task<PagedList<PostResponseDto>> GetAllPostsAsync(PaginationDto input)
         {
-            var pagedPosts = await _postRepository.GetAllWithUserPagedAsync(input);
-            _logger.LogInformation("Fetched {Count} posts.", pagedPosts.Items.Count());
-            var postDtos = _mapper.Map<IEnumerable<PostResponseDto>>(pagedPosts.Items);
+            var userId = _claimContext.GetUserId();
+            var posts = await _postRepository.GetAllPagesAsync(input);
+            var postsDto = _mapper.Map<PagedList<PostResponseDto>>(posts);
+            _logger.LogInformation("Fetching all posts.");
+            return postsDto;
 
-            var result = new PaginationData<PostResponseDto>
+        }
+
+        public async Task<PagedList<PostResponseDto>> GetAllPostByCategoryAsync(PaginationDto input, string slug)
+        {
+            var userId = _claimContext.GetUserId();
+            var existingCategory = await _categoryRepository.GetBySlugAsync(slug);
+            if (existingCategory == null)
             {
-                Data = postDtos,
-                Pagination = new PagedResultDto
-                {
-                    TotalItems = pagedPosts.TotalItems,
-                    PageIndex = pagedPosts.PageIndex,
-                    PageSize = pagedPosts.PageSize,
-                    TotalPages = input.PageSize > 0 ? (int)Math.Ceiling((double)pagedPosts.TotalItems / pagedPosts.PageSize) : 0
-                }
-            };
-
-            return result;
+                throw new HandleException("Category not found!", 404);
+            }
+            var posts = await _postRepository.GetAllPagesByCategoryAsync(existingCategory.CategoryId, input);
+            var postsDto = _mapper.Map<PagedList<PostResponseDto>>(posts);
+            foreach (var post in postsDto.Items)
+            {
+                post.IsLiked = await _postRepository.HasUserLikedPostAsync(post.PostId, userId);
+            }
+            _logger.LogInformation("Fetching posts for category ID {CategoryId}.", existingCategory.CategoryId);
+            return postsDto;
         }
 
         public async Task<PostResponseDto> GetPostByIdAsync(int postId)
         {
-            var post = await _postRepository.GetWithUserByIdAsync(postId);
+            var userId = _claimContext.GetUserId();
+            var post = await _postRepository.GetByIdAsync(postId);
             if (post == null)
             {
-                _logger.LogWarning("Post with ID {PostId} not found.", postId);
                 throw new HandleException("Post not found!", 404);
             }
-
-            _logger.LogInformation("Fetched post with ID {PostId}.", postId);
             var postDto = _mapper.Map<PostResponseDto>(post);
+            var isLiked = await _postRepository.HasUserLikedPostAsync(postDto.PostId, userId);
+            postDto.IsLiked = isLiked;
+            _logger.LogInformation("Fetched post with ID {PostId}.", postId);
             return postDto;
         }
 
-        public async Task<bool> CreatePostAsync(PostCreateRequestDto request)
+        public async Task<int> CreatePostAsync(PostCreateRequestDto request)
         {
             var userId = _claimContext.GetUserId();
+            var slug = ConvertStringToSlug.ToSlug(request.Title);
             var existingCategory = await _categoryRepository.GetByIdAsync(request.CategoryId);
             if (existingCategory == null)
             {
-                _logger.LogWarning("Attempt to create post with non-existent category ID {CategoryId}.", request.CategoryId);
                 throw new HandleException("Category not found!", 404);
             }
-
             var postEntity = _mapper.Map<Models.Post>(request);
-            postEntity.CreatedAt = DateTime.UtcNow;
+            postEntity.CreatedAt = DateTime.Now;
             postEntity.Status = "Pending";
             postEntity.UserId = userId;
+            postEntity.Slug = slug;
             await _postRepository.AddAsync(postEntity);
-
-            _logger.LogInformation("User {UserId} created a new post with title '{Title}'.", userId, request.Title);
-            return true;
+            _logger.LogInformation("Post created successfully with ID {PostId} by user {UserId}.", postEntity.PostId, userId);
+            return postEntity.PostId;
         }
 
         public async Task<bool> UpdatePostAsync(int postId, PostUpdateRequest request)
@@ -93,7 +101,6 @@ namespace ForumBE.Services.Post
             var existingPost = await _postRepository.GetByIdAsync(postId);
             if (existingPost == null)
             {
-                _logger.LogWarning("Attempt to update non-existent post with ID {PostId}.", postId);
                 throw new HandleException("Post not found!", 404);
             }
 
@@ -101,12 +108,15 @@ namespace ForumBE.Services.Post
             var isAdminOrMod = userRole == "admin" || userRole == "moderator";
             if (!isOwner && !isAdminOrMod)
             {
-                _logger.LogWarning("Unauthorized update attempt on post ID {PostId} by user {UserId}.", postId, userId);
-                throw new HandleException("You are not authorized to update this post!", 403);
+                throw new HandleException("You are not authorized to update this post!", 401);
             }
-
+            if (request.Title != null)
+            {
+                var slug = ConvertStringToSlug.ToSlug(request.Title);
+                existingPost.Slug = slug;
+            }
             _mapper.Map(request, existingPost);
-            existingPost.UpdatedAt = DateTime.UtcNow;
+            existingPost.UpdatedAt = DateTime.Now;
             await _postRepository.UpdateAsync(existingPost);
 
             _logger.LogInformation("Post with ID {PostId} updated successfully by user {UserId}.", postId, userId);
@@ -121,7 +131,6 @@ namespace ForumBE.Services.Post
             var post = await _postRepository.GetByIdAsync(postId);
             if (post == null)
             {
-                _logger.LogWarning("Attempt to delete non-existent post with ID {PostId}.", postId);
                 throw new HandleException("Post not found!", 404);
             }
 
@@ -129,43 +138,41 @@ namespace ForumBE.Services.Post
             var isAdminOrMod = userRole == "admin" || userRole == "moderator";
             if (!isOwner && !isAdminOrMod)
             {
-                _logger.LogWarning("Unauthorized delete attempt on post ID {PostId} by user {UserId}.", postId, userId);
                 throw new HandleException("You are not authorized to delete this post!", 403);
             }
-
-            await _postRepository.DeleteAsync(post);
+            post.IsDeleted = true;
+            await _postRepository.UpdateAsync(post);
 
             _logger.LogInformation("Post with ID {PostId} deleted successfully by user {UserId}.", postId, userId);
             return true;
         }
 
-        public async Task<PaginationData<PostResponseDto>> GetAllPostByCategoryIdAsync(int categoryId, PaginationParams input)
+        public async Task<IEnumerable<PostResponseDto>> GetLatestPostsAsync(string? sortBy)
         {
-            var existingCategory = await _categoryRepository.GetByIdAsync(categoryId);
-            if (existingCategory == null)
+            var userId = _claimContext.GetUserId();
+            var latestPosts = await _postRepository.GetLatestPostsAsync(sortBy);
+            var postDtos = _mapper.Map<IEnumerable<PostResponseDto>>(latestPosts);
+            foreach (var post in postDtos)
             {
-                _logger.LogWarning("Attempt to fetch posts with non-existent category ID {CategoryId}.", categoryId);
-                throw new HandleException("Category not found!", 404);
+                post.IsLiked = await _postRepository.HasUserLikedPostAsync(post.PostId, userId);
             }
+            _logger.LogInformation("Fetching latest posts");
+            return postDtos;
+        }
 
-            var pagedPosts = await _postRepository.GetAllByCategoryIdAsync(categoryId, input);
-            var postDtos = _mapper.Map<IEnumerable<PostResponseDto>>(pagedPosts.Items);
-
-            _logger.LogInformation("Fetched {Count} posts for category ID {CategoryId}.", postDtos.Count(), categoryId);
-
-            var result = new PaginationData<PostResponseDto>
+        public async Task<PostResponseDto> GetPostBySlugAsync(string slug)
+        {
+            var userId = _claimContext.GetUserId();
+            var post = await _postRepository.GetPostBySlugAsync(slug);
+            if (post == null)
             {
-                Data = postDtos,
-                Pagination = new PagedResultDto
-                {
-                    TotalItems = pagedPosts.TotalItems,
-                    PageIndex = pagedPosts.PageIndex,
-                    PageSize = pagedPosts.PageSize,
-                    TotalPages = input.PageSize > 0 ? (int)Math.Ceiling((double)pagedPosts.TotalItems / pagedPosts.PageSize) : 0
-                }
-            };
-
-            return result;
+                throw new HandleException("Post not found!", 404);
+            }
+            var postDto = _mapper.Map<PostResponseDto>(post);
+            var isLiked = await _postRepository.HasUserLikedPostAsync(postDto.PostId, userId);
+            postDto.IsLiked = isLiked;
+            _logger.LogInformation("Fetched post with Slug {slug}.", slug);
+            return postDto;
         }
     }
 }

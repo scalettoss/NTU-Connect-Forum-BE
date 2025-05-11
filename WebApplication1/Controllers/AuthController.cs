@@ -1,7 +1,7 @@
-﻿using ForumBE.Auth;
-using ForumBE.DTOs.Auth.Login;
+﻿using ForumBE.DTOs.Auth.Login;
 using ForumBE.DTOs.Auth.Register;
 using ForumBE.Response;
+using ForumBE.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

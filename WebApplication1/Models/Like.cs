@@ -14,9 +14,9 @@ namespace ForumBE.Models
 
         public int? PostId { get; set; }
         public int? CommentId { get; set; }
-        public bool IsLike { get; set; } = false;
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public bool IsDeleted { get; set; }
 
         // Navigation properties
         [ForeignKey("UserId")]

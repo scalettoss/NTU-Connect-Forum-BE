@@ -3,6 +3,7 @@ using ForumBE.DTOs.Warnings;
 using ForumBE.Helpers;
 using ForumBE.Models;
 using ForumBE.Repositories.Interfaces;
+using ForumBE.Repositories.Users;
 using ForumBE.Services.Interfaces;
 
 namespace ForumBE.Services.Implementations
@@ -43,7 +44,7 @@ namespace ForumBE.Services.Implementations
             }
             var warning = _mapper.Map<Warning>(input);
             warning.IssuedBy = userId;
-            warning.CreatedAt = DateTime.UtcNow;
+            warning.CreatedAt = DateTime.Now;
 
             await _warningRepository.AddAsync(warning);
             return true;
@@ -56,7 +57,7 @@ namespace ForumBE.Services.Implementations
                 throw new Exception("Warning not found");
             }
             _mapper.Map(input, warning);
-            warning.UpdatedAt = DateTime.UtcNow;
+            warning.UpdatedAt = DateTime.Now;
             await _warningRepository.UpdateAsync(warning);
 
             return true;

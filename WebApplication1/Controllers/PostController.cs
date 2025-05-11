@@ -1,11 +1,9 @@
-﻿using ForumBE.DTOs.Categories;
-using ForumBE.DTOs.Paginations;
+﻿using ForumBE.DTOs.Paginations;
 using ForumBE.DTOs.Posts;
 using ForumBE.Helpers;
 using ForumBE.Response;
 using ForumBE.Services.Post;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumBE.Controllers
@@ -21,23 +19,32 @@ namespace ForumBE.Controllers
             _postService = postService;
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AllowAnonymous]
         [HttpGet]
-        public async Task<ResponseBase> GetAllPost([FromQuery] PaginationParams input)
+        public async Task<ResponseBase> GetAllPost([FromQuery] PaginationDto input)
         {
             var posts = await _postService.GetAllPostsAsync(input);
-            return ResponseBase.Success(posts.Data, posts.Pagination);
+            return ResponseBase.Success(posts);
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
-        [HttpGet("get-by-category/{categoryId}")]
-        public async Task<ResponseBase> GetAllPostByCategoryId(int categoryId, [FromQuery] PaginationParams input)
+        [AllowAnonymous]
+        [HttpGet("get-by-category/{slug}")]
+        public async Task<ResponseBase> GetAllPostByCategory(string slug, [FromQuery] PaginationDto input)
         {
-            var posts = await _postService.GetAllPostByCategoryIdAsync(categoryId, input);
-            return ResponseBase.Success(posts.Data, posts.Pagination);
+            var posts = await _postService.GetAllPostByCategoryAsync(input, slug);
+            return ResponseBase.Success(posts);
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AllowAnonymous]
+        [HttpGet("slug/{slug}")]
+        public async Task<ResponseBase> GetPostBySlug(string slug)
+        {
+            var category = await _postService.GetPostBySlugAsync(slug);
+            return ResponseBase.Success(category);
+        }
+
+
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ResponseBase> GetPostById(int id)
         {
@@ -45,19 +52,15 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(category);
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AuthorizeRoles(ConstantString.User)]
         [HttpPost]
         public async Task<ResponseBase> CreatePost([FromBody] PostCreateRequestDto input)
         {
-            var isCreated = await _postService.CreatePostAsync(input);
-            if (!isCreated)
-            {
-                return ResponseBase.Fail("Created post failed.");
-            }
-            return ResponseBase.Success("Created post successfully");
+            var createdId = await _postService.CreatePostAsync(input);
+            return ResponseBase.Success(createdId);
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AuthorizeRoles(ConstantString.User)]
         [HttpPut("{id}")]
         public async Task<ResponseBase> UpdatePost(int id, [FromBody] PostUpdateRequest input)
         {
@@ -69,7 +72,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success("Update post successfully");
         }
 
-        [AuthorizeRoles(ConstantsString.User)]
+        [AuthorizeRoles(ConstantString.User)]
         [HttpDelete("{id}")]
         public async Task<ResponseBase> DeletePost(int id)
         {
@@ -81,6 +84,12 @@ namespace ForumBE.Controllers
             return ResponseBase.Success("Delete post successfully");
         }
 
-        
+        [AllowAnonymous]
+        [HttpGet("latest-posts")]
+        public async Task<ResponseBase> GetLatestPostsByCategory([FromQuery] string? sortBy)
+        {
+            var posts = await _postService.GetLatestPostsAsync(sortBy);
+            return ResponseBase.Success(posts);
+        }
     }
 }

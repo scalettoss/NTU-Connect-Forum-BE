@@ -1,4 +1,5 @@
 ﻿using ForumBE.DTOs.Likes;
+using ForumBE.Helpers;
 using ForumBE.Response;
 using ForumBE.Services.Implementations;
 using ForumBE.Services.Interfaces;
@@ -20,12 +21,15 @@ namespace ForumBE.Controllers
             _likeService = likeService;
         }
 
+        [AuthorizeRoles(ConstantString.Moderator)]
         [HttpGet]
         public async Task<ResponseBase> GetAllLikes()
         {
             var likes = await _likeService.GetAllLikesAsync();
             return ResponseBase.Success(likes);
         }
+
+        [AuthorizeRoles(ConstantString.Moderator)]
         [HttpGet("{id}")]
         public async Task<ResponseBase> GetLikeById(int id)
         {
@@ -33,6 +37,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(like);
         }
 
+        [AuthorizeRoles(ConstantString.User)]
         [HttpGet("count-post/{postId}")]
         public async Task<ResponseBase> GetLikeCountFromPost(int postId)
         {
@@ -40,6 +45,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(count);
         }
 
+        [AuthorizeRoles(ConstantString.User)]
         [HttpGet("count-comment/{commentId}")]
         public async Task<ResponseBase> GetLikeCountFromComment(int commentId)
         {
@@ -47,6 +53,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(count);
         }
 
+        [AuthorizeRoles(ConstantString.User)]
         [HttpPost("toggle")]
         public async Task<ResponseBase> ToggleLike([FromBody] LikeToggleRequestDto input)
         {
@@ -58,6 +65,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success("Toggle like successfully");
         }
 
+        [AuthorizeRoles(ConstantString.User)]
         [HttpDelete("{id}")]
         public async Task<ResponseBase> DeleteLike(int id)
         {

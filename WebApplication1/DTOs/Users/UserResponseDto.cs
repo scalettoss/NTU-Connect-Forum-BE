@@ -15,6 +15,9 @@ namespace ForumBE.DTOs.Users
         public string AvatarUrl { get; set; }
         public bool IsActive { get; set; } = true;
         [JsonIgnore]
+        public bool IsDeleted { get; set; } = true;
+
+        [JsonIgnore]
         public string PasswordHash { get; set; }
         public DateTime CreatedAt { get; set; }
     }

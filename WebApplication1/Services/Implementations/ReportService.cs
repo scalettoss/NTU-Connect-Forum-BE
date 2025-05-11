@@ -3,7 +3,9 @@ using ForumBE.DTOs.Exception;
 using ForumBE.DTOs.Reports;
 using ForumBE.Helpers;
 using ForumBE.Models;
+using ForumBE.Repositories.Comments;
 using ForumBE.Repositories.Interfaces;
+using ForumBE.Repositories.Posts;
 using ForumBE.Services.Interfaces;
 
 namespace ForumBE.Services.Implementations
@@ -88,7 +90,7 @@ namespace ForumBE.Services.Implementations
 
             var report = _mapper.Map<Report>(input);
             report.UserId = userId;
-            report.CreatedAt = DateTime.UtcNow;
+            report.CreatedAt = DateTime.Now;
             await _reportRepository.AddAsync(report);
 
             return true;
@@ -108,7 +110,7 @@ namespace ForumBE.Services.Implementations
                 throw new HandleException("You are not authorized to update this report", 403);
             }
             _mapper.Map(input, report);
-            report.UpdatedAt = DateTime.UtcNow;
+            report.UpdatedAt = DateTime.Now;
             await _reportRepository.UpdateAsync(report);
 
             return true;

@@ -1,7 +1,8 @@
 ﻿using ForumBE.DTOs.Notifications;
+using ForumBE.Helpers;
 using ForumBE.Response;
 using ForumBE.Services.Implementations;
-using ForumBE.Services.Interfaces;
+using ForumBE.Services.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +21,15 @@ namespace ForumBE.Controllers
             _notificationService = notificationService;
         }
 
+        [AuthorizeRoles(ConstantString.Admin)]
         [HttpGet]
         public async Task<ResponseBase> GetAllNotifications()
         {
             var notifications = await _notificationService.GetAllNotificationsAsync();
             return ResponseBase.Success(notifications);
         }
+
+        [AuthorizeRoles(ConstantString.Admin)]
         [HttpGet("{id}")]
         public async Task<ResponseBase> GetNotificationById(int id)
         {
@@ -33,6 +37,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(notification);
         }
 
+        [AuthorizeRoles(ConstantString.User)]
         [HttpPost]
         public async Task<ResponseBase> CreateNotification([FromBody] NotificationCreateRequestDto input)
         {
@@ -43,6 +48,8 @@ namespace ForumBE.Controllers
             }
             return ResponseBase.Success("Created notification successfully");
         }
+
+        [AuthorizeRoles(ConstantString.User)]
         [HttpPut("{id}")]
         public async Task<ResponseBase> UpdateNotification(int id, [FromBody] NotificationUpdateRequestDto input)
         {
@@ -54,6 +61,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success("Update notification successfully");
         }
 
+        [AuthorizeRoles(ConstantString.User)]
         [HttpDelete("{id}")]
         public async Task<ResponseBase> DeleteNotification(int id)
         {
@@ -63,6 +71,14 @@ namespace ForumBE.Controllers
                 return ResponseBase.Fail("Delete notification failed.");
             }
             return ResponseBase.Success("Delete notification successfully");
+        }
+
+        [AuthorizeRoles(ConstantString.User)]
+        [HttpGet("user")]
+        public async Task<ResponseBase> GetNotificationsByUserId()
+        {
+            var notifications = await _notificationService.GetNotificationsByUserIdAsync();
+            return ResponseBase.Success(notifications);
         }
     }
 }

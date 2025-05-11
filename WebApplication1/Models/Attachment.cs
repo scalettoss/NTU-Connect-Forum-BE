@@ -21,7 +21,7 @@ namespace ForumBE.Models
         public string FileUrl { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(100)]
         public string FileType { get; set; }
 
         [Required]
@@ -29,6 +29,7 @@ namespace ForumBE.Models
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatdedAt { get; set; }
+        public bool IsDeleted { get; set; }
 
         [ForeignKey("PostId")]
         public virtual Post Post { get; set; }

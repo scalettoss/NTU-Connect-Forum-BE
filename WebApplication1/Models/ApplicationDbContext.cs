@@ -34,6 +34,21 @@ namespace ForumBE.Models
                 .HasIndex(u => u.Email)
                 .IsUnique();
 
+            modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<Post>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<Category>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<Report>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<ReportStatus>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<Notification>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<Like>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<Bookmark>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<ActivityLog>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<Warning>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<ScamDetection>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<Attachment>().HasQueryFilter(u => !u.IsDeleted);
+
+
+
             modelBuilder.Entity<User>()
                 .HasOne(u => u.UserProfile) 
                 .WithOne(p => p.User)       
@@ -46,6 +61,12 @@ namespace ForumBE.Models
 
             modelBuilder.Entity<Role>()
                 .HasIndex(r => r.RoleId);
+
+            modelBuilder.Entity<Post>()
+                .HasIndex(r => r.Slug);
+
+            modelBuilder.Entity<Category>()
+                .HasIndex(r => r.Slug);
 
             // Configure unique constraints and indexes for UserProfile
             modelBuilder.Entity<UserProfile>()
@@ -79,11 +100,7 @@ namespace ForumBE.Models
                 .HasIndex(p => p.IsScam);
 
             modelBuilder.Entity<Post>()
-                .HasIndex(p => p.IsReviewed);
-
-            modelBuilder.Entity<Post>()
                 .HasIndex(p => p.CreatedAt);
-
 
             // Configure indexes for Comment
             modelBuilder.Entity<Comment>()
@@ -283,13 +300,13 @@ namespace ForumBE.Models
                 .HasOne(a => a.Post)
                 .WithMany(p => p.Attachments)
                 .HasForeignKey(a => a.PostId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Attachment>()
                 .HasOne(a => a.Comment)
                 .WithMany(c => c.Attachments)
                 .HasForeignKey(a => a.CommentId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Attachment>()
                 .HasOne(a => a.User)

@@ -9,6 +9,8 @@ namespace ForumBE.Mappings
         public ActivityLogMappings()
         {
             CreateMap<ActivityLog, ActivityLogResponseDto>();
+                //.ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName));
+
             CreateMap<ActivityLogCreateRequestDto, ActivityLog>();
         }
     }

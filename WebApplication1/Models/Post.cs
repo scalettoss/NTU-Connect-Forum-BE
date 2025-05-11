@@ -15,21 +15,23 @@ namespace ForumBE.Models
         [Required]
         [StringLength(255)]
         public string Title { get; set; }
+        public string Slug { get; set; }
 
         [Required]
         [StringLength(255)]
         public string Content { get; set; }
+
 
         [Required]
         public int CategoryId { get; set; }
 
         public bool IsScam { get; set; } = false;
 
-        public bool IsReviewed { get; set; } = false;
         public string Status { get; set; } 
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
+        public bool IsDeleted { get; set; }
 
         // Navigation properties
         [ForeignKey("UserId")]

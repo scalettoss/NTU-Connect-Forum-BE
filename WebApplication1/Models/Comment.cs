@@ -18,10 +18,12 @@ namespace ForumBE.Models
         [Required]
         [StringLength(255)]
         public string Content { get; set; }
+        public int? ReplyTo { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
+        public bool IsDeleted { get; set; }
 
         // Navigation properties
         [ForeignKey("PostId")]

@@ -16,3 +16,5 @@ appsettings.Development.json
 
 WebApplication1/Properties/launchSettings.json
 /WebApplication1/wwwroot
+/WebApplication1/Logs
+/WebApplication1/Logs

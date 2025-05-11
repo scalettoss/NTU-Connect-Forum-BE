@@ -1,7 +1,8 @@
 ﻿using ForumBE.DTOs.Bookmarks;
+using ForumBE.Helpers;
 using ForumBE.Response;
+using ForumBE.Services.Bookmarks;
 using ForumBE.Services.Implementations;
-using ForumBE.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace ForumBE.Controllers
             _bookmarkService = bookmarkService;
         }
 
+        [AuthorizeRoles(ConstantString.Admin)]
         [HttpGet]
         public async Task<ResponseBase> GetAllBookmarks()
         {
@@ -27,6 +29,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(bookmarks);
         }
 
+        [AuthorizeRoles(ConstantString.User)]
         [HttpGet("{id}")]
         public async Task<ResponseBase> GetBookmarkById(int id)
         {
@@ -34,6 +37,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(bookmark);
         }
 
+        [AuthorizeRoles(ConstantString.User)]
         [HttpPost]
         public async Task<ResponseBase> CreateBookmark([FromBody] BookmarkCreateRequestDto input)
         {
@@ -45,6 +49,7 @@ namespace ForumBE.Controllers
             return ResponseBase.Success("Create bookmark success");
         }
 
+        [AuthorizeRoles(ConstantString.User)]
         [HttpDelete("{id}")]
         public async Task<ResponseBase> DeleteBookmark(int id)
         {

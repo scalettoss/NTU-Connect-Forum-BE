@@ -3,7 +3,9 @@ using ForumBE.DTOs.Exception;
 using ForumBE.DTOs.Likes;
 using ForumBE.Helpers;
 using ForumBE.Models;
-using ForumBE.Repositories.Interfaces;
+using ForumBE.Repositories.Comments;
+using ForumBE.Repositories.Likes;
+using ForumBE.Repositories.Posts;
 using ForumBE.Services.Interfaces;
 
 namespace ForumBE.Services.Implementations
@@ -76,27 +78,15 @@ namespace ForumBE.Services.Implementations
                         throw new HandleException("Post not found!", 404);
                     }
                     var userLikePost = await _likeRepository.GetLikesPostByUser(input.PostId.Value, userId);
-                    if (userLikePost != null)
-                    {
-
-                        if (!userLikePost.IsLike)
-                        {
-                            userLikePost.IsLike = true;
-                        }
-                        else
-                        {
-                            userLikePost.IsLike = false;
-                        }
-                        userLikePost.UpdatedAt = DateTime.UtcNow;
-                        await _likeRepository.UpdateAsync(userLikePost);
-
+                    if (userLikePost != null) {
+                        await _likeRepository.DeleteAsync(userLikePost);
                         return true;
                     }
+
                     var like = _mapper.Map<Like>(input);
                     like.PostId = input.PostId.Value;
                     like.UserId = userId;
-                    like.IsLike = true;
-                    like.CreatedAt = DateTime.UtcNow;
+                    like.CreatedAt = DateTime.Now;
                     await _likeRepository.AddAsync(like);
 
                     return true;
@@ -112,24 +102,13 @@ namespace ForumBE.Services.Implementations
                     var userLikeComment = await _likeRepository.GetLikesCommentByUser(input.CommentId.Value, userId);
                     if (userLikeComment != null)
                     {
-                        if (!userLikeComment.IsLike)
-                        {
-                            userLikeComment.IsLike = true;
-                        }
-                        else
-                        {
-                            userLikeComment.IsLike = false;
-                        }
-                        userLikeComment.UpdatedAt = DateTime.UtcNow;
-                        await _likeRepository.UpdateAsync(userLikeComment);
-
+                        await _likeRepository.DeleteAsync(userLikeComment);
                         return true;
                     }
                     var like = _mapper.Map<Like>(input);
                     like.CommentId = input.CommentId.Value;
                     like.UserId = userId;
-                    like.IsLike = true;
-                    like.CreatedAt = DateTime.UtcNow;
+                    like.CreatedAt = DateTime.Now;
                     await _likeRepository.AddAsync(like);
 
                     return true;
