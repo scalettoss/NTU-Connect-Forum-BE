@@ -12,4 +12,5 @@
         public string? Gender { get; set; }
         public bool? IsProfilePublic { get; set; } = true;
     }
+ 
 }

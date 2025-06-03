@@ -28,6 +28,14 @@ namespace ForumBE.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("name")]
+        public async Task<ResponseBase> GetAllCategoryName()
+        {
+            var catogories = await _categoryService.GetAllCategoryNameAsync();
+            return ResponseBase.Success(catogories);
+        }
+
+        [AllowAnonymous]
         [HttpGet("slug/{slug}")]
         public async Task<ResponseBase> GetCategoryById(string slug)
         {

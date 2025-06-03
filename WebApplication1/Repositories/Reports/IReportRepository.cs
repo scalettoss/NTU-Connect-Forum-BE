@@ -1,7 +1,7 @@
 ﻿using ForumBE.Models;
 using ForumBE.Repositories.Generics;
 
-namespace ForumBE.Repositories.Interfaces
+namespace ForumBE.Repositories.Reports
 {
     public interface IReportRepository : IGenericRepository<Report>
     {

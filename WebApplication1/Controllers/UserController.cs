@@ -44,6 +44,38 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(user);
         }
 
+        [AuthorizeRoles(ConstantString.Admin)]
+        [HttpPost("add-user")]
+        public async Task<ResponseBase> CreateUserByAdmin([FromBody] AddUserByAdminRequestDto request)
+        {
+            var isCreated = await _userService.AddUserByAdmin(request);
+            if (!isCreated) 
+            {
+                return ResponseBase.Fail("Create user failed.");
+            }
+            return ResponseBase.Success("Create user successfully");
+        }
+
+        [AuthorizeRoles(ConstantString.Admin)]
+        [HttpPost("by-condition")]
+        public async Task<ResponseBase> GetAllUserByCondition([FromBody] AdvancedUserSearchRequestDto request, [FromQuery] PaginationDto pagination)
+        {
+            var user = await _userService.GetAllUserByCondition(pagination, request);
+            return ResponseBase.Success(user);
+        }
+
+        [AuthorizeRoles(ConstantString.Admin)]
+        [HttpPost("by-admin")]
+        public async Task<ResponseBase> UpdateUserByAdmin(UserChangeInforByAdminRequestDto request)
+        {
+            var isUpdated = await _userService.UpdateUserByAdminAsync(request);
+            if (!isUpdated)
+            {
+                return ResponseBase.Fail("Update user failed.");
+            }
+            return ResponseBase.Success("Update user successfully");
+        }
+
 
         [AllowAnonymous]
         [HttpPost("search")]

@@ -8,5 +8,7 @@ namespace ForumBE.Repositories.Categories
     {
         Task<bool> IsExistingCategoryName(string name);
         Task<Category> GetBySlugAsync(string slug);
+        Task<bool> IsSlugExistsAsync(string slug);
+
     }
 }

@@ -34,6 +34,7 @@ namespace ForumBE.Services.User
             _logger = logger;
             _userProfileRepository = userProfileRepository;
         }
+       
         public async Task<PagedList<UserResponseDto>> GetAllUserAsync(PaginationDto input)
         {
             _logger.LogInformation("Fetching user profiles.");
@@ -64,52 +65,6 @@ namespace ForumBE.Services.User
             }
             return _mapper.Map<UserResponseDto>(user);
         }
-
-        //public async Task<bool> UpdateUserAsync(int id, UserUpdateProfilesRequestDto request)
-        //{
-        //    _logger.LogInformation("Updating user profile. ID: {UserId}", id);
-        //    var userId = _userContextService.GetUserId();
-        //    if (userId != id)
-        //    {
-        //        _logger.LogWarning("User ID mismatch. Current: {CurrentUserId}, Target: {TargetUserId}", userId, id);
-        //        throw new HandleException("Người dùng không có quyền thực hiện", 401);
-        //    }
-
-        //    var user = await _userRepository.GetByIdAsync(id);
-        //    if (user == null)
-        //    {
-        //        _logger.LogWarning("User with ID {UserId} not found.", id);
-        //        throw new HandleException("Không tìm thấy người dùng", 404);
-        //    }
-
-        //    if (request.AvatarFile != null && request.AvatarFile.Length > 0)
-        //    {
-        //        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "avatars");
-        //        if (!Directory.Exists(uploadsFolder))
-        //        {
-        //            Directory.CreateDirectory(uploadsFolder);
-        //            _logger.LogInformation("Created uploads folder at {UploadsFolder}", uploadsFolder);
-        //        }
-
-        //        var fileExtension = Path.GetExtension(request.AvatarFile.FileName);
-        //        var fileName = $"{Guid.NewGuid()}{fileExtension}";
-        //        var filePath = Path.Combine(uploadsFolder, fileName);
-
-        //        using (var stream = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            await request.AvatarFile.CopyToAsync(stream);
-        //        }
-
-        //        _logger.LogInformation("Saved avatar file for user {UserId} at {FilePath}", id, filePath);
-
-        //        request.AvatarUrl = $"/avatars/{fileName}";
-        //    }
-
-        //    _mapper.Map(request, user);
-        //    user.UpdatedAt = DateTime.Now;
-        //    await _userRepository.UpdateAsync(user);
-        //    return true;
-        //}
 
         public async Task<bool> DeleteUserAsync(int id)
         {
@@ -175,7 +130,6 @@ namespace ForumBE.Services.User
 
         public async Task<bool> UpdateUserInformationAsync(UserProfileUpdateRequestDto input, int id)
         {
-            _logger.LogInformation("Updating user profile. ID: {UserId}", id);
             var userId = _userContextService.GetUserId();
             if (userId != id)
             {
@@ -214,20 +168,83 @@ namespace ForumBE.Services.User
             }
             var userProfileDto = _mapper.Map(input, userProfile);
             await _userProfileRepository.UpdateAsync(userProfileDto);
+
             if (input.FirstName != null && input.LastName != null)
             {
                 user.FirstName = input.FirstName;
                 user.LastName = input.LastName;
             }
+
             user.UpdatedAt = DateTime.Now;
             await _userRepository.UpdateAsync(user);
             return true;
 
         }
 
-        public Task<bool> UpdateUserAsync(int id, UserUpdateProfilesRequestDto input)
+        public async Task<bool> UpdateUserByAdminAsync(UserChangeInforByAdminRequestDto input)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetByIdAsync(input.UserId);
+            if (user == null)
+            {
+                throw new HandleException("Không tìm thấy người dùng", 404);
+            }
+
+            if (input.IsActive != null)
+            {
+                user.IsActive = input.IsActive.Value;
+            }
+
+            if (input.RoleId != null)
+            {
+                user.RoleId = input.RoleId.Value;
+            }
+
+            if (input.Email != null)
+            {
+                var existingUser = await _userRepository.GetByEmailAsync(input.Email);
+                if (existingUser != null && existingUser.UserId != input.UserId)
+                {
+                    throw new HandleException("Email đã tồn tại", 400);
+                }
+                user.Email = input.Email;
+            }
+
+            if (input.Password != null)
+            {
+                user.PasswordHash = _passwordHasher.HashPassword(user, input.Password);
+            }
+            await _userRepository.UpdateAsync(user);
+            return true;
+        }
+
+        public async Task<PagedList<UserResponseDto>> GetAllUserByCondition(PaginationDto input, AdvancedUserSearchRequestDto condition)
+        {
+            var users = await _userRepository.GetByCondition(input, condition);
+            var usersDto = _mapper.Map<PagedList<UserResponseDto>>(users);
+            _logger.LogInformation("Fetching user profiles with conditions.");
+            return usersDto;
+        }
+
+        public async Task<bool> AddUserByAdmin(AddUserByAdminRequestDto input)
+        {
+            var existingUser = await _userRepository.GetByEmailAsync(input.Email);
+            if (existingUser != null)
+            {
+                throw new HandleException("Email đã tồn tại", 400);
+            }
+            var user = new Models.User
+            {
+                FirstName = input.FirstName,
+                LastName = input.LastName,
+                Email = input.Email,
+                RoleId = input.RoleId,
+                PasswordHash = _passwordHasher.HashPassword(null, input.Password),
+                IsActive = input.IsActive,
+                CreatedAt = DateTime.Now,
+                IsDeleted = false,
+            };
+            await _userRepository.AddAsync(user);
+            return true;
         }
     }
 }

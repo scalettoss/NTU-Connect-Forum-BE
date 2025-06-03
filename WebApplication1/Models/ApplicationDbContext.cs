@@ -23,8 +23,8 @@ namespace ForumBE.Models
         public DbSet<Bookmark> Bookmarks { get; set; }
         public DbSet<ActivityLog> ActivityLogs { get; set; }
         public DbSet<Warning> Warnings { get; set; }
-        public DbSet<ScamKeyword> ScamKeywords { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<SystemConfig> SystemConfigs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,20 +34,26 @@ namespace ForumBE.Models
                 .HasIndex(u => u.Email)
                 .IsUnique();
 
+            modelBuilder.Entity<SystemConfig>()
+                .HasIndex(s => s.Key)
+                .IsUnique();
+
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Post>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Category>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Report>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<ReportStatus>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Notification>().HasQueryFilter(u => !u.IsDeleted);
-            modelBuilder.Entity<Like>().HasQueryFilter(u => !u.IsDeleted);
-            modelBuilder.Entity<Bookmark>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<ActivityLog>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Warning>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<ScamDetection>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Attachment>().HasQueryFilter(u => !u.IsDeleted);
 
-
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Parent)
+                .WithMany(c => c.Replies)
+                .HasForeignKey(c => c.ReplyTo)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.UserProfile) 
@@ -119,11 +125,20 @@ namespace ForumBE.Models
             modelBuilder.Entity<ScamDetection>()
                 .HasIndex(sd => sd.ModelPrediction);
 
-            modelBuilder.Entity<ScamDetection>()
-                .HasIndex(sd => sd.AdminReviewed);
+            
 
             modelBuilder.Entity<ScamDetection>()
                 .HasIndex(sd => sd.CreatedAt);
+
+            modelBuilder.Entity<ScamDetection>()
+               .HasIndex(s => s.PostId)
+               .IsUnique();
+
+            modelBuilder.Entity<Post>()
+                .HasOne(p => p.ScamDetection)
+                .WithOne(s => s.Post)
+                .HasForeignKey<ScamDetection>(s => s.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Configure indexes for Report
             modelBuilder.Entity<Report>()
@@ -206,11 +221,6 @@ namespace ForumBE.Models
 
             modelBuilder.Entity<Warning>()
                 .HasIndex(w => w.CreatedAt);
-
-            // Configure indexes for ScamKeyword
-            modelBuilder.Entity<ScamKeyword>()
-                .HasIndex(sk => sk.Keyword)
-                .IsUnique();
 
             // Configure indexes for Attachment
             modelBuilder.Entity<Attachment>()
@@ -332,17 +342,19 @@ namespace ForumBE.Models
                 .HasForeignKey(n => n.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.Comment)
+                .WithMany()  // Comment không có navigation property trỏ về Notification
+                .HasForeignKey(n => n.CommentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<ActivityLog>()
                 .HasOne(al => al.User)
                 .WithMany(u => u.ActivityLogs)
                 .HasForeignKey(al => al.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<ScamDetection>()
-                .HasOne(sd => sd.Post)
-                .WithMany(p => p.ScamDetections)
-                .HasForeignKey(sd => sd.PostId)
-                .OnDelete(DeleteBehavior.Restrict);
+            
 
             // Configure relationships for Warning
             modelBuilder.Entity<Warning>()

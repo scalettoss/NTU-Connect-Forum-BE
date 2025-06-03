@@ -1,14 +1,21 @@
 ﻿using AutoMapper;
+using ForumBE.Controllers;
 using ForumBE.DTOs.Exception;
 using ForumBE.DTOs.Paginations;
 using ForumBE.DTOs.Posts;
 using ForumBE.DTOs.Posts.ForumBE.DTOs.Posts;
 using ForumBE.Helpers;
 using ForumBE.Models;
+using ForumBE.Repositories.Attachments;
+using ForumBE.Repositories.Bookmarks;
 using ForumBE.Repositories.Categories;
+using ForumBE.Repositories.IUnitOfWork;
 using ForumBE.Repositories.Posts;
+using ForumBE.Services.ActivitiesLog;
+using ForumBE.Services.IPost;
 
-namespace ForumBE.Services.Post
+
+namespace ForumBE.Services.Posts
 {
     public class PostService : IPostService
     {
@@ -16,20 +23,32 @@ namespace ForumBE.Services.Post
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<PostService> _logger;
+        private readonly IBookmarkRepository _bookmarkRepository;
+        private readonly IAttachmentRepository _attachmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ClaimContext _claimContext;
+        private readonly IActivityLogService _activityLogService;
 
         public PostService(
             IPostRepository postRepository,
             IMapper mapper,
             ICategoryRepository categoryRepository,
+            IBookmarkRepository bookmarkRepository,
+            IAttachmentRepository attachmentRepository,
             ClaimContext claimContext,
-            ILogger<PostService> logger)
+            IUnitOfWork unitOfWork,
+            ILogger<PostService> logger,
+            IActivityLogService activityLogService)
         {
             _postRepository = postRepository;
             _mapper = mapper;
             _categoryRepository = categoryRepository;
+            _bookmarkRepository = bookmarkRepository;
+            _attachmentRepository = attachmentRepository;
             _claimContext = claimContext;
+            _unitOfWork = unitOfWork;
             _logger = logger;
+            _activityLogService = activityLogService;
         }
 
         public async Task<PagedList<PostResponseDto>> GetAllPostsAsync(PaginationDto input)
@@ -55,6 +74,7 @@ namespace ForumBE.Services.Post
             foreach (var post in postsDto.Items)
             {
                 post.IsLiked = await _postRepository.HasUserLikedPostAsync(post.PostId, userId);
+                post.IsBookmark = await _bookmarkRepository.IsAlreadyBookmark(post.PostId, userId);
             }
             _logger.LogInformation("Fetching posts for category ID {CategoryId}.", existingCategory.CategoryId);
             return postsDto;
@@ -78,21 +98,76 @@ namespace ForumBE.Services.Post
         public async Task<int> CreatePostAsync(PostCreateRequestDto request)
         {
             var userId = _claimContext.GetUserId();
-            var slug = ConvertStringToSlug.ToSlug(request.Title);
+            var baseSlug = ConvertStringToSlug.ToSlug(request.Title);
+            var slug = await GenerateUniqueSlugAsync(baseSlug);
             var existingCategory = await _categoryRepository.GetByIdAsync(request.CategoryId);
+
             if (existingCategory == null)
-            {
                 throw new HandleException("Category not found!", 404);
+
+            await _unitOfWork.BeginTransactionAsync();
+
+            var savedFilePaths = new List<string>();
+            int postId = 0;
+
+            try
+            {
+                // Tạo bài viết
+                var postEntity = _mapper.Map<Models.Post>(request);
+                postEntity.CreatedAt = DateTime.Now;
+                postEntity.Status = "Pending";
+                postEntity.UserId = userId;
+                postEntity.Slug = slug;
+
+                await _postRepository.AddAsync(postEntity);
+                postId = postEntity.PostId;
+
+                // Nếu có file thì xử lý lưu file & đính kèm
+                if (request.Files != null && request.Files.Any())
+                {
+                    var attachments = await SaveAttachmentsAsync(request.Files, userId, postEntity.PostId, savedFilePaths);
+
+                    // Có file đính kèm hợp lệ thì lưu
+                    if (attachments.Any())
+                    {
+                        await _attachmentRepository.AddRangeAsync(attachments);
+                    }
+                    // Có file nhưng tất cả đều không hợp lệ => rollback toàn bộ
+                    else
+                    {
+                        throw new HandleException("No valid files to upload.", 400);
+                    }
+                }
+
+                // Log the activity
+                await ActivityLogHelper.LogActivityAsync(
+                    _activityLogService,
+                    ConstantString.CreatePostAction,
+                    "Post",
+                    $"Tạo bài viết với nội dung: {request.Title}"
+                );
+
+                // Thành công
+                await _unitOfWork.CommitTransactionAsync();
+                return postEntity.PostId;
             }
-            var postEntity = _mapper.Map<Models.Post>(request);
-            postEntity.CreatedAt = DateTime.Now;
-            postEntity.Status = "Pending";
-            postEntity.UserId = userId;
-            postEntity.Slug = slug;
-            await _postRepository.AddAsync(postEntity);
-            _logger.LogInformation("Post created successfully with ID {PostId} by user {UserId}.", postEntity.PostId, userId);
-            return postEntity.PostId;
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+
+                // Xóa file vật lý nếu có
+                foreach (var filePath in savedFilePaths)
+                {
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+                }
+
+                throw new HandleException($"Create post failed: {ex.Message}", 500);
+            }
         }
+
 
         public async Task<bool> UpdatePostAsync(int postId, PostUpdateRequest request)
         {
@@ -104,20 +179,23 @@ namespace ForumBE.Services.Post
                 throw new HandleException("Post not found!", 404);
             }
 
-            var isOwner = existingPost.UserId == userId;
-            var isAdminOrMod = userRole == "admin" || userRole == "moderator";
-            if (!isOwner && !isAdminOrMod)
-            {
-                throw new HandleException("You are not authorized to update this post!", 401);
-            }
             if (request.Title != null)
             {
-                var slug = ConvertStringToSlug.ToSlug(request.Title);
+                var baseSlug = ConvertStringToSlug.ToSlug(request.Title);
+                var slug = await GenerateUniqueSlugAsync(baseSlug);
                 existingPost.Slug = slug;
             }
             _mapper.Map(request, existingPost);
             existingPost.UpdatedAt = DateTime.Now;
             await _postRepository.UpdateAsync(existingPost);
+
+            // Log the activity
+            await ActivityLogHelper.LogActivityAsync(
+                _activityLogService,
+                ConstantString.UpdatePostAction,
+                "Post",
+                $"Chỉnh sửa bài vi: {existingPost.Title}"
+            );
 
             _logger.LogInformation("Post with ID {PostId} updated successfully by user {UserId}.", postId, userId);
             return true;
@@ -125,7 +203,6 @@ namespace ForumBE.Services.Post
 
         public async Task<bool> DeletePostAsync(int postId)
         {
-
             var userId = _claimContext.GetUserId();
             var userRole = _claimContext.GetUserRoleName();
             var post = await _postRepository.GetByIdAsync(postId);
@@ -134,14 +211,16 @@ namespace ForumBE.Services.Post
                 throw new HandleException("Post not found!", 404);
             }
 
-            var isOwner = post.UserId == userId;
-            var isAdminOrMod = userRole == "admin" || userRole == "moderator";
-            if (!isOwner && !isAdminOrMod)
-            {
-                throw new HandleException("You are not authorized to delete this post!", 403);
-            }
             post.IsDeleted = true;
             await _postRepository.UpdateAsync(post);
+
+            // Log the activity
+            await ActivityLogHelper.LogActivityAsync(
+                _activityLogService,
+                ConstantString.DeletePostAction,
+                "Post",
+                $"Xóa bài viết: {post.Title}"
+            );
 
             _logger.LogInformation("Post with ID {PostId} deleted successfully by user {UserId}.", postId, userId);
             return true;
@@ -170,8 +249,104 @@ namespace ForumBE.Services.Post
             }
             var postDto = _mapper.Map<PostResponseDto>(post);
             var isLiked = await _postRepository.HasUserLikedPostAsync(postDto.PostId, userId);
+            var isBookmark = await _bookmarkRepository.IsAlreadyBookmark(postDto.PostId, userId);
             postDto.IsLiked = isLiked;
+            postDto.IsBookmark = isBookmark;
             _logger.LogInformation("Fetched post with Slug {slug}.", slug);
+            return postDto;
+        }
+
+        private async Task<List<Attachment>> SaveAttachmentsAsync(IEnumerable<IFormFile> files, int userId, int postId, List<string> savedFilePaths)
+        {
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".pdf", ".docx", ".txt", ".xlsx", ".pptx", ".mp3", ".gif" };
+            const long MaxFileSize = 10 * 1024 * 1024;
+
+            var dateFolder = DateTime.Now.ToString("yyyyMMdd");
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", dateFolder);
+
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var attachments = new List<Attachment>();
+
+            foreach (var file in files)
+            {
+                if (file.Length == 0) continue;
+
+                var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+                if (!allowedExtensions.Contains(fileExtension))
+                    throw new HandleException($"Invalid file extension for {file.FileName}.", 400);
+
+                if (file.Length > MaxFileSize)
+                    throw new HandleException($"File size exceeds 10MB for {file.FileName}.", 400);
+
+                var uniqueFileName = Guid.NewGuid() + fileExtension;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                savedFilePaths.Add(filePath);
+
+                var fileUrl = $"/uploads/{dateFolder}/{uniqueFileName}";
+                var fileSizeInMB = (file.Length / 1024f / 1024f).ToString("0.00") + " MB";
+
+                attachments.Add(new Attachment
+                {
+                    PostId = postId,
+                    UserId = userId,
+                    FileUrl = fileUrl,
+                    FileType = file.ContentType,
+                    FileSize = fileSizeInMB,
+                    CreatedAt = DateTime.Now,
+                });
+            }
+
+            return attachments;
+        }
+
+        public Task<int> GetUserAuthorByPostAsync(int postId)
+        {
+            var authorId = _postRepository.GetUserAuthorByPostAsync(postId);
+            if (authorId == null)
+            {
+                throw new HandleException("Post not found!", 404);
+            }
+            return authorId;
+        }
+
+        public async Task<string> GenerateUniqueSlugAsync(string baseSlug)
+        {
+            string slug = baseSlug;
+            int counter = 1;
+
+            while (await _postRepository.IsSlugExistsAsync(slug))
+            {
+                slug = $"{baseSlug}-{counter}";
+                counter++;
+            }
+
+            return slug;
+        }
+
+        public async Task<PagedList<PostAdminResponseDto>> GetAllPostByAdminAsync(PaginationDto input, PostSearchRequestDto condition)
+        {
+            var posts = await _postRepository.GetAllByAdmin(input, condition);
+            _logger.LogInformation("Fetching all posts for admin.");
+            return posts;
+        }
+
+        public async Task<PostAdminResponseDto> GetPostByAdminAsync(int postId)
+        {
+            var post = await _postRepository.GetPostByAdminAsync(postId);
+            if (post == null)
+            {
+                throw new HandleException("Post not found!", 404);
+            }
+            var postDto = _mapper.Map<PostAdminResponseDto>(post);
+            _logger.LogInformation("Fetched post with ID {PostId} for admin.", postId);
             return postDto;
         }
     }

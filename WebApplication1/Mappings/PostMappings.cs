@@ -21,6 +21,16 @@ namespace ForumBE.Mappings
                 .ForMember(dest => dest.FileUrls, opt => opt.MapFrom(src => src.Attachments.Select(a => a.FileUrl).ToList()))
                 ;
 
+            CreateMap<Post, PostAdminResponseDto>();
+            //    .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName))
+            //    .ForMember(dest => dest.AvatarUrl, opt => opt.MapFrom(src => src.User.UserProfile.AvatarUrl))
+            //    .ForMember(dest => dest.CommentCount, opt => opt.MapFrom(src => src.Comments.Count()))
+            //    .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.Likes.Count()))
+            //    .ForMember(dest => dest.ConfidenceScore, opt => opt.MapFrom(src => src.ScamDetection.ConfidenceScore))
+            //    .ForMember(dest => dest.IsScam, opt => opt.MapFrom(src => src.ScamDetection.ModelPrediction))
+            //    .ForMember(dest => dest.FileTypes, opt => opt.MapFrom(src => src.Attachments.Select(a => a.FileType).ToList()))
+            //    .ForMember(dest => dest.FileUrls, opt => opt.MapFrom(src => src.Attachments.Select(a => a.FileUrl).ToList()))
+            //    .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
 
             CreateMap<PostCreateRequestDto, Post>();
             CreateMap<PostUpdateRequest, Post>()

@@ -2,7 +2,7 @@
 using ForumBE.DTOs.Posts;
 using ForumBE.Helpers;
 using ForumBE.Response;
-using ForumBE.Services.Post;
+using ForumBE.Services.IPost;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +27,8 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(posts);
         }
 
+        
+
         [AllowAnonymous]
         [HttpGet("get-by-category/{slug}")]
         public async Task<ResponseBase> GetAllPostByCategory(string slug, [FromQuery] PaginationDto input)
@@ -39,8 +41,8 @@ namespace ForumBE.Controllers
         [HttpGet("slug/{slug}")]
         public async Task<ResponseBase> GetPostBySlug(string slug)
         {
-            var category = await _postService.GetPostBySlugAsync(slug);
-            return ResponseBase.Success(category);
+            var post = await _postService.GetPostBySlugAsync(slug);
+            return ResponseBase.Success(post);
         }
 
 
@@ -48,16 +50,40 @@ namespace ForumBE.Controllers
         [HttpGet("{id}")]
         public async Task<ResponseBase> GetPostById(int id)
         {
-            var category = await _postService.GetPostByIdAsync(id);
-            return ResponseBase.Success(category);
+            var post = await _postService.GetPostByIdAsync(id);
+            return ResponseBase.Success(post);
+        }
+
+        [AuthorizeRoles(ConstantString.Admin)]
+        [HttpGet("by-admin/{id}")]
+        public async Task<ResponseBase> GetPostByAdmin(int id)
+        {
+            var post = await _postService.GetPostByAdminAsync(id);
+            return ResponseBase.Success(post);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("author/{id}")]
+        public async Task<ResponseBase> GetUserAuthorByPost(int id)
+        {
+            var posts = await _postService.GetUserAuthorByPostAsync(id);
+            return ResponseBase.Success(posts);
         }
 
         [AuthorizeRoles(ConstantString.User)]
         [HttpPost]
-        public async Task<ResponseBase> CreatePost([FromBody] PostCreateRequestDto input)
+        public async Task<ResponseBase> CreatePost([FromForm] PostCreateRequestDto input)
         {
             var createdId = await _postService.CreatePostAsync(input);
             return ResponseBase.Success(createdId);
+        }
+
+        [AuthorizeRoles(ConstantString.Admin)]
+        [HttpPost("by-admin")]
+        public async Task<ResponseBase> GetAllPostByAdmin([FromQuery] PaginationDto input, [FromBody] PostSearchRequestDto condition)
+        {
+            var posts = await _postService.GetAllPostByAdminAsync(input, condition);
+            return ResponseBase.Success(posts);
         }
 
         [AuthorizeRoles(ConstantString.User)]

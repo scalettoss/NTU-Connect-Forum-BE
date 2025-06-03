@@ -2,6 +2,7 @@
 using ForumBE.Helpers;
 using ForumBE.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ForumBE.Repositories.Generics
 {
@@ -23,7 +24,8 @@ namespace ForumBE.Repositories.Generics
 
         public virtual async Task<T> GetByIdAsync(int id)
         {
-            return await _context.Set<T>().FindAsync(id);
+            var item = await _dbSet.FindAsync(id);
+            return item;
         }
 
         public async Task AddAsync(T entity)
@@ -61,6 +63,13 @@ namespace ForumBE.Repositories.Generics
             var query = _dbSet
                .AsQueryable();
             return await PagedList<T>.CreateAsync(query, input.PageNumber, input.PageSize);
+        }
+
+        public async Task<int> CountAsync(Expression<Func<T, bool>> predicate = null)
+        {
+            if (predicate != null)
+                return await _dbSet.CountAsync(predicate);
+            return await _dbSet.CountAsync();
         }
     }
 }

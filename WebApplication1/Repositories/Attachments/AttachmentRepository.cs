@@ -1,8 +1,7 @@
 ﻿using ForumBE.Models;
 using ForumBE.Repositories.Generics;
-using ForumBE.Repositories.Interfaces;
 
-namespace ForumBE.Repositories.Implementations
+namespace ForumBE.Repositories.Attachments
 {
     public class AttachmentRepository : GenericRepository<Attachment>, IAttachmentRepository
     {

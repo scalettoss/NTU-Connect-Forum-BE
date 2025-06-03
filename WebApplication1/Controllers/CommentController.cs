@@ -47,7 +47,7 @@ namespace ForumBE.Controllers
 
         [AuthorizeRoles(ConstantString.User)]
         [HttpPost]
-        public async Task<ResponseBase> CreateComment([FromBody] CommentCreateRequestDto request)
+        public async Task<ResponseBase> CreateComment([FromForm] CommentCreateRequestDto request)
         {
             var comments = await _commentService.CreateCommentAsync(request);
             return ResponseBase.Success(comments);

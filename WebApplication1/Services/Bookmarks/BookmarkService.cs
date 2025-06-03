@@ -5,6 +5,7 @@ using ForumBE.Helpers;
 using ForumBE.Models;
 using ForumBE.Repositories.Bookmarks;
 using ForumBE.Repositories.Posts;
+using ForumBE.Services.ActivitiesLog;
 
 namespace ForumBE.Services.Bookmarks
 {
@@ -14,12 +15,20 @@ namespace ForumBE.Services.Bookmarks
         private readonly IPostRepository _postRepository;
         private readonly ClaimContext _userContextService;
         private readonly IMapper _mapper;
-        public BookmarkService(IBookmarkRepository bookmarkRepository, ClaimContext userContextService, IPostRepository postRepository, IMapper mapper)
+        private readonly IActivityLogService _activityLogService;
+
+        public BookmarkService(
+            IBookmarkRepository bookmarkRepository, 
+            ClaimContext userContextService, 
+            IPostRepository postRepository, 
+            IMapper mapper,
+            IActivityLogService activityLogService)
         {
             _bookmarkRepository = bookmarkRepository;
             _postRepository = postRepository;
             _userContextService = userContextService;
             _mapper = mapper;
+            _activityLogService = activityLogService;
         }
 
         public async Task<IEnumerable<BookmarkResponseDto>> GetAllBookmarksAsync()
@@ -40,68 +49,48 @@ namespace ForumBE.Services.Bookmarks
             return bookmarkMap;
         }
 
-        public async Task<bool> CreateBookmarkAsync(BookmarkCreateRequestDto input)
+        public async Task<IEnumerable<BookmarkResponseDto>> GetAllBookmarksByUserAsync(int userId)
         {
-            try
-            {
-                var userId = _userContextService.GetUserId();
-                var existingPost = await _postRepository.GetByIdAsync(input.PostId);
-
-                if (existingPost == null)
-                {
-                    throw new HandleException("Post not found", 404);
-                }
-
-                var existingBookmark = await _bookmarkRepository.IsExistingBookmark(userId, input.PostId);
-
-                if (existingBookmark != null)
-                {
-                    throw new HandleException("Bookmark already exists", 400);
-                }
-
-                if (existingPost.UserId == userId)
-                {
-                    throw new HandleException("You cannot bookmark your own post", 400);
-                }
-                var bookmark = _mapper.Map<Bookmark>(input);
-                bookmark.UserId = userId;
-                bookmark.CreatedAt = DateTime.Now;
-                await _bookmarkRepository.AddAsync(bookmark);
-
-                return true;
-            }
-            catch
-            {
-                throw;
-            }
+            var bookmarks = await _bookmarkRepository.GetAllByUserAsync(userId);
+            var bookmarkMap = _mapper.Map<IEnumerable<BookmarkResponseDto>>(bookmarks);
+            return bookmarkMap;
         }
 
-        public async Task<bool> DeleteBookmarkAsync(int id)
+        public async Task<bool> ToggleBookmarkAsync(BookmarkCreateRequestDto input)
         {
-            try
+            var userId = _userContextService.GetUserId();
+            var existingBookmark = await _bookmarkRepository.GetByPostAsync(input.PostId);
+            if (existingBookmark != null && existingBookmark.UserId == userId)
             {
-                var userId = _userContextService.GetUserId();
-
-                var bookmark = await _bookmarkRepository.GetByIdAsync(id);
-
-                if (bookmark == null)
+                if (existingBookmark.IsDeleted)
                 {
-                    throw new HandleException("Bookmark not found", 404);
+                    existingBookmark.IsDeleted = false;
+                    await _bookmarkRepository.UpdateAsync(existingBookmark);
+                    return true;
                 }
-
-                if (bookmark.UserId != userId)
+                else
                 {
-                    throw new HandleException("You cannot delete this bookmark", 403);
+                    existingBookmark.IsDeleted = true;
+                    await _bookmarkRepository.UpdateAsync(existingBookmark);
+                    return true;
                 }
-
-                await _bookmarkRepository.DeleteAsync(bookmark);
-
-                return true;
             }
-            catch
+
+            var existingPost = await _postRepository.GetByIdAsync(input.PostId);
+            if (existingPost == null)
             {
-                throw;
+                throw new HandleException("Post not found", 404);
             }
+
+            var data = new Bookmark
+            {
+                PostId = input.PostId,
+                UserId = userId,
+                CreatedAt = DateTime.Now,
+                IsDeleted = false
+            };
+            await _bookmarkRepository.AddAsync(data);
+            return true;
         }
     }
 }

@@ -10,6 +10,5 @@
         public DateTime UpdatedAt { get; set; } 
         public int? CountTotalPost { get; set; }
         public bool IsDeleted { get; set; }
-
     }
 }

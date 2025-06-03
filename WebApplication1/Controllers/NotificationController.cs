@@ -49,6 +49,18 @@ namespace ForumBE.Controllers
             return ResponseBase.Success("Created notification successfully");
         }
 
+        [AuthorizeRoles(ConstantString.Admin)]
+        [HttpPost("system")]
+        public async Task<ResponseBase> CreateSystemNotification([FromBody] SystemNotificationRequestDto request)
+        {
+            var isCreated = await _notificationService.CreateSystemNotificationForAllUsersAsync(request);
+            if (!isCreated)
+            {
+                return ResponseBase.Fail("Created notification failed.");
+            }
+            return ResponseBase.Success("Created notification successfully");
+        }
+
         [AuthorizeRoles(ConstantString.User)]
         [HttpPut("{id}")]
         public async Task<ResponseBase> UpdateNotification(int id, [FromBody] NotificationUpdateRequestDto input)
@@ -79,6 +91,18 @@ namespace ForumBE.Controllers
         {
             var notifications = await _notificationService.GetNotificationsByUserIdAsync();
             return ResponseBase.Success(notifications);
+        }
+
+        [AuthorizeRoles(ConstantString.User)]
+        [HttpPost("mark-read")]
+        public async Task<ResponseBase> MarkReadNotification([FromBody] MarkReadNotificationDto request)
+        {
+            var isMarkRead = await _notificationService.MarkReadNotification(request);
+            if (!isMarkRead)
+            {
+                return ResponseBase.Fail("Mark read notification failed.");
+            }
+            return ResponseBase.Success("Mark read notification successfully");
         }
     }
 }

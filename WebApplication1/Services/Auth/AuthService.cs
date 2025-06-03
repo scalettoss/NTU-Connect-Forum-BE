@@ -87,6 +87,8 @@ namespace ForumBE.Services.Auth
             {
                 UserId = userId,
                 Action = ConstantString.LoginAction,
+                Description = $"Đăng nhập thành công với email {input.Email}",
+                Module = "AuthModule",
                 CreatedAt = DateTime.Now,
                 IsDeleted = false,
             };
@@ -161,6 +163,8 @@ namespace ForumBE.Services.Auth
             {
                 UserId = alreadyUser.UserId,
                 Action = ConstantString.RegisterAction,
+                Description = $"Đăng kí tài khoản thành công với email {input.Email}",
+                Module = "AuthModule",
                 CreatedAt = DateTime.Now,
                 IsDeleted = false,
             };

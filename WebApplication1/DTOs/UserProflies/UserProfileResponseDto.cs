@@ -18,5 +18,6 @@ namespace ForumBE.DTOs.UserProflies
         public int LikeCount { get; set; }
         public string RoleName { get; set; }
         public string Email { get; set; }
+        public bool IsActive { get; set; }
     }
 }

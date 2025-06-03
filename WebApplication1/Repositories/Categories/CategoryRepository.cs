@@ -11,6 +11,7 @@ namespace ForumBE.Repositories.Categories
         {
         }
 
+
         public override async Task<PagedList<Category>> GetAllPagesAsync(PaginationDto input)
         {
             var query = _context.Categories
@@ -18,6 +19,15 @@ namespace ForumBE.Repositories.Categories
                 .Where( c => c.IsDeleted == false)
                 .AsQueryable();
             return await PagedList<Category>.CreateAsync(query, input.PageNumber, input.PageSize);
+        }
+
+        public override async Task<Category> GetByIdAsync(int id)
+        {
+            var category = await _context.Categories
+                .Include(c => c.Posts)
+                .FirstOrDefaultAsync(c => c.CategoryId == id && c.IsDeleted == false);
+            
+            return category;
         }
 
         public Task<Category> GetBySlugAsync(string slug)
@@ -36,6 +46,11 @@ namespace ForumBE.Repositories.Categories
                 return true;
             }
             return false;
+        }
+
+        public async Task<bool> IsSlugExistsAsync(string slug)
+        {
+            return await _context.Categories.AnyAsync(p => p.Slug == slug);
         }
     }
 }

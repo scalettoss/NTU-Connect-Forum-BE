@@ -1,9 +1,8 @@
 ﻿using ForumBE.Models;
 using ForumBE.Repositories.Generics;
-using ForumBE.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace ForumBE.Repositories.Implementations
+namespace ForumBE.Repositories.Reports
 {
     public class ReportRepository : GenericRepository<Report>, IReportRepository
     {

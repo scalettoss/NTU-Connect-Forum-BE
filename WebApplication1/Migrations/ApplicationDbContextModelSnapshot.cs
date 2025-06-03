@@ -38,8 +38,18 @@ namespace ForumBE.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Module")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -228,6 +238,8 @@ namespace ForumBE.Migrations
 
                     b.HasIndex("PostId");
 
+                    b.HasIndex("ReplyTo");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
@@ -308,9 +320,13 @@ namespace ForumBE.Migrations
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SenderId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -327,6 +343,8 @@ namespace ForumBE.Migrations
                     b.HasIndex("IsRead");
 
                     b.HasIndex("PostId");
+
+                    b.HasIndex("SenderId");
 
                     b.HasIndex("UserId");
 
@@ -516,9 +534,6 @@ namespace ForumBE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetectionId"));
 
-                    b.Property<bool>("AdminReviewed")
-                        .HasColumnType("bit");
-
                     b.Property<float>("ConfidenceScore")
                         .HasColumnType("real");
 
@@ -544,39 +559,55 @@ namespace ForumBE.Migrations
 
                     b.HasKey("DetectionId");
 
-                    b.HasIndex("AdminReviewed");
-
                     b.HasIndex("CreatedAt");
 
                     b.HasIndex("ModelPrediction");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("PostId")
+                        .IsUnique();
 
                     b.ToTable("ScamDetections");
                 });
 
-            modelBuilder.Entity("ForumBE.Models.ScamKeyword", b =>
+            modelBuilder.Entity("ForumBE.Models.SystemConfig", b =>
                 {
-                    b.Property<int>("KeywordId")
+                    b.Property<int>("SystemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KeywordId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SystemId"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Keyword")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("KeywordId");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("Keyword")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Value")
+                        .HasColumnType("bit");
+
+                    b.HasKey("SystemId");
+
+                    b.HasIndex("Key")
                         .IsUnique();
 
-                    b.ToTable("ScamKeywords");
+                    b.ToTable("SystemConfigs");
                 });
 
             modelBuilder.Entity("ForumBE.Models.User", b =>
@@ -799,11 +830,18 @@ namespace ForumBE.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ForumBE.Models.Comment", "Parent")
+                        .WithMany("Replies")
+                        .HasForeignKey("ReplyTo")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ForumBE.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Parent");
 
                     b.Navigation("Post");
 
@@ -837,11 +875,16 @@ namespace ForumBE.Migrations
                 {
                     b.HasOne("ForumBE.Models.Comment", "Comment")
                         .WithMany()
-                        .HasForeignKey("CommentId");
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ForumBE.Models.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId");
+
+                    b.HasOne("ForumBE.Models.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId");
 
                     b.HasOne("ForumBE.Models.User", "User")
                         .WithMany("Notifications")
@@ -852,6 +895,8 @@ namespace ForumBE.Migrations
                     b.Navigation("Comment");
 
                     b.Navigation("Post");
+
+                    b.Navigation("Sender");
 
                     b.Navigation("User");
                 });
@@ -921,9 +966,9 @@ namespace ForumBE.Migrations
             modelBuilder.Entity("ForumBE.Models.ScamDetection", b =>
                 {
                     b.HasOne("ForumBE.Models.Post", "Post")
-                        .WithMany("ScamDetections")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithOne("ScamDetection")
+                        .HasForeignKey("ForumBE.Models.ScamDetection", "PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -981,6 +1026,8 @@ namespace ForumBE.Migrations
 
                     b.Navigation("Likes");
 
+                    b.Navigation("Replies");
+
                     b.Navigation("Reports");
                 });
 
@@ -996,7 +1043,8 @@ namespace ForumBE.Migrations
 
                     b.Navigation("Reports");
 
-                    b.Navigation("ScamDetections");
+                    b.Navigation("ScamDetection")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ForumBE.Models.Report", b =>

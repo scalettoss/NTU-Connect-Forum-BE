@@ -26,8 +26,6 @@ namespace ForumBE.Models
         [StringLength(50)]
         public string ModelVersion { get; set; }
 
-        public bool AdminReviewed { get; set; }
-
         // Navigation properties
         [ForeignKey("PostId")]
         public virtual Post Post { get; set; }

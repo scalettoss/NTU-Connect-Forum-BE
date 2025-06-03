@@ -19,6 +19,8 @@ namespace ForumBE.Models
         [StringLength(255)]
         public string Content { get; set; }
         public int? ReplyTo { get; set; }
+        public Comment Parent { get; set; }
+        public List<Comment> Replies { get; set; } = new List<Comment>();
 
         public DateTime CreatedAt { get; set; }
 

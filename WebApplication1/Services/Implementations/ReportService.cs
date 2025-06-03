@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using Azure.Core;
+using ForumBE.Controllers;
 using ForumBE.DTOs.Exception;
 using ForumBE.DTOs.Reports;
 using ForumBE.Helpers;
 using ForumBE.Models;
 using ForumBE.Repositories.Comments;
-using ForumBE.Repositories.Interfaces;
 using ForumBE.Repositories.Posts;
+using ForumBE.Repositories.Reports;
+using ForumBE.Services.ActivitiesLog;
 using ForumBE.Services.Interfaces;
 
 namespace ForumBE.Services.Implementations
@@ -15,14 +18,22 @@ namespace ForumBE.Services.Implementations
         private readonly IReportRepository _reportRepository;
         private readonly IPostRepository _postRepository;
         private readonly ICommentRepository _commentRepository;
+        private readonly IActivityLogService _activityLogService;
         private readonly IMapper _mapper;
         private readonly ClaimContext _userContextService;
-        public ReportService(IReportRepository reportRepository, IMapper mapper, ClaimContext userContextService, IPostRepository postRepository, ICommentRepository commentRepository)
+        public ReportService(
+            IReportRepository reportRepository, 
+            IMapper mapper, 
+            ClaimContext userContextService, 
+            IPostRepository postRepository,
+            IActivityLogService activityLogService,
+            ICommentRepository commentRepository)
         {
             _reportRepository = reportRepository;
             _mapper = mapper;
             _userContextService = userContextService;
             _postRepository = postRepository;
+            _activityLogService = activityLogService;
             _commentRepository = commentRepository;
         }
 
@@ -63,7 +74,7 @@ namespace ForumBE.Services.Implementations
                 var existingReport = await _reportRepository.IsExistingReport(userId, input.PostId, input.CommentId);
                 if (existingReport)
                 {
-                    throw new HandleException("You have already reported this post", 400);
+                    throw new HandleException("Bạn đã báo cáo bài viết này rồi", 400);
                 }
 
                 var existingPost = await _postRepository.GetByIdAsync(input.PostId.Value);
@@ -71,6 +82,12 @@ namespace ForumBE.Services.Implementations
                 {
                     throw new HandleException("Post not found", 404);
                 }
+                await ActivityLogHelper.LogActivityAsync(
+                _activityLogService,
+                ConstantString.UpdateCommentAction,
+                "Report",
+                $"Báo cáo bài viết với lí do: {input.Reason}"
+                );
             }
 
             if (input.CommentId != null)
@@ -86,6 +103,11 @@ namespace ForumBE.Services.Implementations
                 {
                     throw new HandleException("Comment not found", 404);
                 }
+                await ActivityLogHelper.LogActivityAsync(
+                _activityLogService,
+                ConstantString.UpdateCommentAction,
+                "Report",
+                $"Báo cáo bình luận với lí do: {input.Reason}");
             }
 
             var report = _mapper.Map<Report>(input);
@@ -93,6 +115,7 @@ namespace ForumBE.Services.Implementations
             report.CreatedAt = DateTime.Now;
             await _reportRepository.AddAsync(report);
 
+            
             return true;
         }
 

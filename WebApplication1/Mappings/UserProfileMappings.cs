@@ -15,7 +15,8 @@ namespace ForumBE.Mappings
                 .ForMember(dest => dest.CommentCount, opt => opt.MapFrom(src => src.User.Comments.Count(c => c.IsDeleted == false)))
                 .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(src => src.User.Likes.Count))
                 .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.User.Role.RoleName))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email));
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.User.IsActive));
 
             CreateMap<UserProfileCreateRequestDto, UserProfile>();
 

@@ -1,6 +1,7 @@
 ﻿using ForumBE.DTOs.Paginations;
 using ForumBE.Helpers;
 using ForumBE.Models;
+using System.Linq.Expressions;
 
 namespace ForumBE.Repositories.Generics
 {
@@ -12,6 +13,7 @@ namespace ForumBE.Repositories.Generics
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
+        Task<int> CountAsync(Expression<Func<T, bool>> predicate = null);
         Task AddRangeAsync(IEnumerable<T> entity);
         Task DeleteRangeAsync(IEnumerable<T> entities);
     }

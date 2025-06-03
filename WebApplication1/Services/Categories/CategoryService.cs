@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using ForumBE.Controllers;
 using ForumBE.DTOs.Categories;
 using ForumBE.DTOs.Exception;
 using ForumBE.DTOs.Paginations;
 using ForumBE.Helpers;
 using ForumBE.Repositories.Categories;
 using ForumBE.Repositories.Posts;
+using ForumBE.Services.ActivitiesLog;
 
 namespace ForumBE.Services.Category
 {
@@ -15,19 +17,22 @@ namespace ForumBE.Services.Category
         private readonly IMapper _mapper;
         private readonly ClaimContext _userContextService;
         private readonly ILogger<CategoryService> _logger;
+        private readonly IActivityLogService _activityLogService;
 
         public CategoryService(
             ICategoryRepository categoryRepository,
             IMapper mapper,
             IPostRepository postRepository,
             ClaimContext userContextService,
-            ILogger<CategoryService> logger)
+            ILogger<CategoryService> logger,
+            IActivityLogService activityLogService)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _postRepository = postRepository;
             _userContextService = userContextService;
             _logger = logger;
+            _activityLogService = activityLogService;
         }
 
         public async Task<PagedList<CategoryResponseDto>> GetAllCategoriesAsync(PaginationDto input)
@@ -53,7 +58,8 @@ namespace ForumBE.Services.Category
         public async Task<bool> CreateCategoryAsync(CategoryCreateRequestDto request)
         {
             var userId = _userContextService.GetUserId();
-            var slug = ConvertStringToSlug.ToSlug(request.Name);
+            var baseSlug = ConvertStringToSlug.ToSlug(request.Name);
+            var slug = await GenerateUniqueSlugAsync(baseSlug);
             var isExistingCategory = await _categoryRepository.IsExistingCategoryName(request.Name);
             if (isExistingCategory)
             {
@@ -75,6 +81,14 @@ namespace ForumBE.Services.Category
             category.Slug = slug;
             await _categoryRepository.AddAsync(category);
 
+            // Log the activity
+            await ActivityLogHelper.LogActivityAsync(
+                _activityLogService,
+                ConstantString.CreateCategoryAction,
+                "Category",
+                $"Tạo danh mục mới: {request.Name}"
+            );
+
             _logger.LogInformation("Category {CategoryName} created successfully", request.Name);
             return true;
         }
@@ -91,6 +105,9 @@ namespace ForumBE.Services.Category
             if (!string.IsNullOrEmpty(request.Name))
             {
                 category.Name = request.Name;
+                var baseSlug = ConvertStringToSlug.ToSlug(request.Name);
+                var slug = await GenerateUniqueSlugAsync(baseSlug);
+                category.Slug = slug;
             }
 
             if (!string.IsNullOrEmpty(request.Description))
@@ -100,6 +117,14 @@ namespace ForumBE.Services.Category
 
             category.UpdatedAt = DateTime.Now;
             await _categoryRepository.UpdateAsync(category);
+
+            // Log the activity
+            await ActivityLogHelper.LogActivityAsync(
+                _activityLogService,
+                ConstantString.UpdateCategoryAction,
+                "Category",
+                $"Chỉnh sửa danh mục: {category.Name}"
+            );
 
             _logger.LogInformation("Category with ID {CategoryId} updated successfully", categoryId);
             return true;
@@ -113,8 +138,18 @@ namespace ForumBE.Services.Category
             {
                 throw new HandleException("Category not found!", 404);
             }
+            
             category.IsDeleted = true;
             await _categoryRepository.UpdateAsync(category);
+
+            // Log the activity
+            await ActivityLogHelper.LogActivityAsync(
+                _activityLogService,
+                ConstantString.DeleteCategoryAction,
+                "Category",
+                $"Xóa danh mục: {category.Name}"
+            );
+            
             return true;
         }
 
@@ -128,6 +163,32 @@ namespace ForumBE.Services.Category
             var categoryMap = _mapper.Map<CategoryResponseDto>(category);
             _logger.LogInformation("Getting category with Slug: {slug}", slug);
             return categoryMap;
+        }
+
+        public async Task<List<CategoryResponseForNamesDto>> GetAllCategoryNameAsync()
+        {
+            var categories = await _categoryRepository.GetAllAsync();
+
+            return categories
+                .Select(c => new CategoryResponseForNamesDto
+                {
+                    CategoryId = c.CategoryId,
+                    CategoryName = c.Name
+                })
+                .ToList();
+        }
+        public async Task<string> GenerateUniqueSlugAsync(string baseSlug)
+        {
+            string slug = baseSlug;
+            int counter = 1;
+
+            while (await _postRepository.IsSlugExistsAsync(slug))
+            {
+                slug = $"{baseSlug}-{counter}";
+                counter++;
+            }
+
+            return slug;
         }
     }
 }

@@ -30,35 +30,23 @@ namespace ForumBE.Controllers
         }
 
         [AuthorizeRoles(ConstantString.User)]
-        [HttpGet("{id}")]
-        public async Task<ResponseBase> GetBookmarkById(int id)
+        [HttpGet("user/{id}")]
+        public async Task<ResponseBase> GetAllBookmarkByUserId(int id)
         {
-            var bookmark = await _bookmarkService.GetBookmarkByIdAsync(id);
+            var bookmark = await _bookmarkService.GetAllBookmarksByUserAsync(id);
             return ResponseBase.Success(bookmark);
         }
 
         [AuthorizeRoles(ConstantString.User)]
-        [HttpPost]
-        public async Task<ResponseBase> CreateBookmark([FromBody] BookmarkCreateRequestDto input)
+        [HttpPost("toggle")]
+        public async Task<ResponseBase> ToggleBookmark([FromBody] BookmarkCreateRequestDto request)
         {
-            var isCreated = await _bookmarkService.CreateBookmarkAsync(input);
-            if (!isCreated)
+            var isToggled = await _bookmarkService.ToggleBookmarkAsync(request);
+            if (!isToggled)
             {
-                return ResponseBase.Fail("Create bookmark failed");
+                return ResponseBase.Fail("Toggle bookmark failed");
             }
-            return ResponseBase.Success("Create bookmark success");
-        }
-
-        [AuthorizeRoles(ConstantString.User)]
-        [HttpDelete("{id}")]
-        public async Task<ResponseBase> DeleteBookmark(int id)
-        {
-            var isDeleted = await _bookmarkService.DeleteBookmarkAsync(id);
-            if (!isDeleted)
-            {
-                return ResponseBase.Fail("Delete bookmark failed");
-            }
-            return ResponseBase.Success("Delete bookmark success");
+            return ResponseBase.Success("Toggle bookmark success");
         }
     }
 }

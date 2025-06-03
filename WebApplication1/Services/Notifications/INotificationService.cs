@@ -10,5 +10,8 @@ namespace ForumBE.Services.Notifications
         Task<bool> UpdateNotificationAsync(int id, NotificationUpdateRequestDto input);
         Task<bool> DeleteNotificationAsync(int id);
         Task<IEnumerable<NotificationResponseDto>> GetNotificationsByUserIdAsync();
+        Task<bool> CreateSystemNotificationForAllUsersAsync(SystemNotificationRequestDto input);
+
+        Task<bool> MarkReadNotification(MarkReadNotificationDto request);
     }
 }

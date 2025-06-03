@@ -29,14 +29,6 @@ namespace ForumBE.Controllers
             return ResponseBase.Success(likes);
         }
 
-        [AuthorizeRoles(ConstantString.Moderator)]
-        [HttpGet("{id}")]
-        public async Task<ResponseBase> GetLikeById(int id)
-        {
-            var like = await _likeService.GetLikeByIdAsync(id);
-            return ResponseBase.Success(like);
-        }
-
         [AuthorizeRoles(ConstantString.User)]
         [HttpGet("count-post/{postId}")]
         public async Task<ResponseBase> GetLikeCountFromPost(int postId)
@@ -63,18 +55,6 @@ namespace ForumBE.Controllers
                 return ResponseBase.Fail("Toggle like failed.");
             }
             return ResponseBase.Success("Toggle like successfully");
-        }
-
-        [AuthorizeRoles(ConstantString.User)]
-        [HttpDelete("{id}")]
-        public async Task<ResponseBase> DeleteLike(int id)
-        {
-            var isDeleted = await _likeService.DeleteLikeAsync(id);
-            if (!isDeleted)
-            {
-                return ResponseBase.Fail("Delete like failed.");
-            }
-            return ResponseBase.Success("Delete like successfully");
         }
     }
 }

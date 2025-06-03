@@ -1,4 +1,5 @@
-﻿using ForumBE.DTOs.Paginations;
+﻿using ForumBE.DTOs.Comments;
+using ForumBE.DTOs.Paginations;
 using ForumBE.Models;
 using ForumBE.Repositories.Generics;
 using Microsoft.EntityFrameworkCore;
@@ -32,40 +33,74 @@ namespace ForumBE.Repositories.Comments
             return comment;
         }
 
-        public async Task<PagedList<Comment>> GetAllCommentsByPost(PaginationDto input, int postId)
+        public async Task<PagedList<CommentResponseDto>> GetAllCommentsByPost(PaginationDto input, int postId, int? userId)
         {
-            var query = _context.Comments
-                .Include(c => c.User)
-                .Include(c => c.User.UserProfile)
-                .Include(c => c.Attachments)
-                .Include(c => c.Likes)
-                .Include(c => c.Post)
+            // Lấy tất cả comment của bài viết
+            var allComments = await _context.Comments
                 .Where(c => c.PostId == postId)
+                .Include(c => c.User).ThenInclude(u => u.UserProfile)
+                .Include(c => c.Likes)
+                .Include(c => c.Attachments) // ✅ Bổ sung Include
                 .AsNoTracking()
-                .AsQueryable();
+                .ToListAsync();
 
+            // Lấy comment gốc (không phải reply)
+            var parentComments = allComments.Where(c => c.ReplyTo == null).ToList();
 
-            switch (input.SortBy?.ToLower())
+            // Sắp xếp comment gốc
+            parentComments = input.SortBy?.ToLower() switch
             {
-                case "oldest":
-                    query = query.OrderBy(p => p.CreatedAt);
-                    break;
+                "oldest" => parentComments.OrderBy(c => c.CreatedAt).ToList(),
+                "popular" => parentComments.OrderByDescending(c => c.Likes.Count).ToList(),
+                _ => parentComments.OrderByDescending(c => c.CreatedAt).ToList(), // newest
+            };
 
-                case "popular":
-                    query = query.OrderByDescending(p => p.Likes.Count());
-                    break;
+            // Phân trang comment gốc
+            var pagedParents = parentComments
+                .Skip((input.PageNumber - 1) * input.PageSize)
+                .Take(input.PageSize)
+                .ToList();
 
-                case "newest":
-                default:
-                    query = query.OrderByDescending(p => p.CreatedAt);
-                    break;
+            // Map sang DTO
+            var allDtos = allComments.Select(c => new CommentResponseDto
+            {
+                CommentId = c.CommentId,
+                FullName = c.User.FirstName + " " + c.User.LastName,
+                UserId = c.User.UserId,
+                Content = c.Content,
+                LikeCount = c.Likes.Count,
+                AvatarUrl = c.User.UserProfile.AvatarUrl,
+                FileTypes = c.Attachments.Select(a => a.FileType).ToList(),
+                FileUrls = c.Attachments.Select(a => a.FileUrl).ToList(),
+                IsDeleted = c.IsDeleted,
+                CreatedAt = c.CreatedAt,
+                UpdatedAt = c.UpdatedAt,
+                Replies = new List<CommentResponseDto>(),
+                IsLiked = userId.HasValue && c.Likes.Any(l => l.UserId == userId.Value)
+            }).ToList();
+
+            // Tạo dictionary để hỗ trợ gán replies
+            var dtoDict = allDtos.ToDictionary(d => d.CommentId);
+
+            // Gán các replies vào comment cha
+            foreach (var comment in allComments)
+            {
+                if (comment.ReplyTo != null && dtoDict.ContainsKey(comment.ReplyTo.Value))
+                {
+                    dtoDict[comment.ReplyTo.Value].Replies.Add(dtoDict[comment.CommentId]);
+                }
             }
 
+            var result = pagedParents.Select(c => dtoDict[c.CommentId]).ToList();
 
-
-            return await PagedList<Comment>.CreateAsync(query, input.PageNumber, input.PageSize);
-
+            return new PagedList<CommentResponseDto>(
+                result,
+                parentComments.Count,
+                input.PageNumber,
+                input.PageSize
+            );
         }
+
 
         public override async Task<PagedList<Comment>> GetAllPagesAsync(PaginationDto input)
         {

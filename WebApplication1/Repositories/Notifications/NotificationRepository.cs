@@ -13,9 +13,12 @@ namespace ForumBE.Repositories.Notifications
         public async Task<IEnumerable<Notification>> GetByUserId(int userId)
         {
             var notifications = await _context.Notifications
-                .Where(n => n.UserId == userId)
+                .Include(n => n.User)
+                .Include(n => n.Post)
+                .Include(n => n.Post.Category)
+                .Where(n => n.UserId == userId && n.SenderId != userId)
                 .OrderByDescending(n => n.CreatedAt)
-                .Take(5)
+                .Take(3)
                 .ToListAsync();
             return notifications;
         }

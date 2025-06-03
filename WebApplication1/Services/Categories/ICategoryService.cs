@@ -8,6 +8,7 @@ namespace ForumBE.Services.Category
         Task<PagedList<CategoryResponseDto>> GetAllCategoriesAsync(PaginationDto input);
         Task<CategoryResponseDto> GetCategoryByIdAsync(int categoryId);
         Task<CategoryResponseDto> GetCategoryBySlugAsync(string slug);
+        Task<List<CategoryResponseForNamesDto>> GetAllCategoryNameAsync();
         Task<bool> CreateCategoryAsync(CategoryCreateRequestDto input);
         Task<bool> UpdateCategoryAsync(int categoryId, CategoryUpdateRequestDto input);
         Task<bool> DeleteCategoryAsync(int categoryId);

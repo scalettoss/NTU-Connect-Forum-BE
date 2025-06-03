@@ -2,43 +2,47 @@
 using ForumBE.Mappings;
 using ForumBE.Middlewares;
 using ForumBE.Models;
+using ForumBE.Repositories.ActivitiesLog;
+using ForumBE.Repositories.Attachments;
+using ForumBE.Repositories.Bookmarks;
+using ForumBE.Repositories.Categories;
+using ForumBE.Repositories.Comments;
 using ForumBE.Repositories.Implementations;
 using ForumBE.Repositories.Interfaces;
+using ForumBE.Repositories.IUnitOfWork;
+using ForumBE.Repositories.Likes;
+using ForumBE.Repositories.Notifications;
+using ForumBE.Repositories.Posts;
+using ForumBE.Repositories.Reports;
+using ForumBE.Repositories.Users;
+using ForumBE.Services.ActivitiesLog;
+using ForumBE.Services.Auth;
+using ForumBE.Services.Bookmarks;
+using ForumBE.Services.Category;
+using ForumBE.Services.Comments;
 using ForumBE.Services.Implementations;
 using ForumBE.Services.Interfaces;
+using ForumBE.Services.IPost;
+using ForumBE.Services.Notifications;
+using ForumBE.Services.Posts;
+using ForumBE.Services.Statistics;
 using ForumBE.Services.User;
+using ForumBE.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Security.Claims;
-using System.Text;
 using Serilog;
-using ForumBE.Services.Category;
-using ForumBE.Services.Post;
-using Microsoft.Extensions.FileProviders;
-using ForumBE.SignalR;
-using ForumBE.Repositories.Users;
-using ForumBE.Repositories.Categories;
-using ForumBE.Repositories.Posts;
-using ForumBE.Repositories.Comments;
-using ForumBE.Services.Comments;
-using ForumBE.Repositories.Likes;
-using ForumBE.Repositories.ActivitiesLog;
-using ForumBE.Services.ActivitiesLog;
-using ForumBE.Services.Auth;
-using ForumBE.Repositories.Bookmarks;
-using ForumBE.Services.Bookmarks;
-using ForumBE.Repositories.Notifications;
-using ForumBE.Services.Notifications;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console() 
-    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day) 
+    .WriteTo.Console()
+    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
 builder.Host.UseSerilog();
@@ -79,10 +83,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000") 
+            policy.WithOrigins("http://localhost:3000")
                   .AllowAnyHeader()
                   .AllowAnyMethod()
-                  .AllowCredentials(); 
+                  .AllowCredentials();
         });
 });
 builder.Services.AddAuthentication(options =>
@@ -90,7 +94,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    
+
 }).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
@@ -122,6 +126,11 @@ builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(UserMappings));
 
 builder.Services.AddScoped<ClaimContext>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IStatisticsService, StatisticsService>();
+
 
 // scoped User
 builder.Services.AddScoped<IUserRepository, UserRepository>();
