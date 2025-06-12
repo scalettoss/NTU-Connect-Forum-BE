@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using Azure.Core;
-using ForumBE.Controllers;
 using ForumBE.DTOs.Exception;
+using ForumBE.DTOs.Paginations;
+using ForumBE.DTOs.Posts.ForumBE.DTOs.Posts;
 using ForumBE.DTOs.Reports;
 using ForumBE.Helpers;
 using ForumBE.Models;
 using ForumBE.Repositories.Comments;
+using ForumBE.Repositories.Implementations;
+using ForumBE.Repositories.Interfaces;
 using ForumBE.Repositories.Posts;
 using ForumBE.Repositories.Reports;
 using ForumBE.Services.ActivitiesLog;
@@ -19,6 +22,7 @@ namespace ForumBE.Services.Implementations
         private readonly IPostRepository _postRepository;
         private readonly ICommentRepository _commentRepository;
         private readonly IActivityLogService _activityLogService;
+        private readonly IReportStatusRepository _reportStatusRepository;
         private readonly IMapper _mapper;
         private readonly ClaimContext _userContextService;
         public ReportService(
@@ -27,6 +31,7 @@ namespace ForumBE.Services.Implementations
             ClaimContext userContextService, 
             IPostRepository postRepository,
             IActivityLogService activityLogService,
+            IReportStatusRepository reportStatusRepository,
             ICommentRepository commentRepository)
         {
             _reportRepository = reportRepository;
@@ -35,6 +40,7 @@ namespace ForumBE.Services.Implementations
             _postRepository = postRepository;
             _activityLogService = activityLogService;
             _commentRepository = commentRepository;
+            _reportStatusRepository = reportStatusRepository;
         }
 
         public async Task<IEnumerable<ReportResponseDto>> GetAllReportsAsync()
@@ -46,13 +52,12 @@ namespace ForumBE.Services.Implementations
 
         public async Task<ReportResponseDto> GetReportByIdAsync(int id)
         {
-            var report = await _reportRepository.GetByIdAsync(id);
+            var report = await _reportRepository.GetReportById(id);
             if (report == null)
             {
                 throw new HandleException("Report not found", 404);
             }
-            var reportDto = _mapper.Map<ReportResponseDto>(report);
-            return reportDto;
+            return report;
         }
 
         public async Task<bool> CreateReportAsync(ReportCreateRequestDto input)
@@ -86,7 +91,7 @@ namespace ForumBE.Services.Implementations
                 _activityLogService,
                 ConstantString.UpdateCommentAction,
                 "Report",
-                $"Báo cáo bài viết với lí do: {input.Reason}"
+                $"Báo cáo bài viết {existingPost.Title} với lí do: {input.Reason}"
                 );
             }
 
@@ -109,13 +114,21 @@ namespace ForumBE.Services.Implementations
                 "Report",
                 $"Báo cáo bình luận với lí do: {input.Reason}");
             }
-
             var report = _mapper.Map<Report>(input);
             report.UserId = userId;
             report.CreatedAt = DateTime.Now;
             await _reportRepository.AddAsync(report);
+            var reportStatus = new ReportStatus
+            {
+                ReportId = report.ReportId,
+                Status = "pending",
+                IsProcessed = false,
+                CreatedAt = DateTime.Now,
+                HandledBy = null,
+                IsDeleted = false,
+            };
+            await _reportStatusRepository.AddAsync(reportStatus);
 
-            
             return true;
         }
 
@@ -147,6 +160,33 @@ namespace ForumBE.Services.Implementations
                 throw new HandleException("Report not found", 404);
             }
             await _reportRepository.DeleteAsync(report);
+            return true;
+        }
+
+        public async Task<PagedList<ReportResponseDto>> GetAllReportPagedAsync(PaginationDto input)
+        {
+            var report = await _reportRepository.GetAllPagedAsync(input);
+            return report;
+        }
+
+        public async Task<bool> HandelReportAsync(HandelReportRequestDto input)
+        {
+            var userId = _userContextService.GetUserId();
+            var report = await _reportStatusRepository.GetByReportIdAsync(input.ReportId);
+            if (report == null)
+            {
+                throw new HandleException("Report not found", 404);
+            }
+
+            if (input.Status != ConstantString.Rejected && input.Status != ConstantString.Resolved && input.Status != ConstantString.Pending)
+            {
+                throw new HandleException("Invalid status", 400);
+            }
+            report.Status = input.Status;
+            report.UpdatedAt = DateTime.Now;
+            report.HandledBy = userId;
+            report.IsProcessed = true;
+            await _reportStatusRepository.UpdateAsync(report);
             return true;
         }
     }

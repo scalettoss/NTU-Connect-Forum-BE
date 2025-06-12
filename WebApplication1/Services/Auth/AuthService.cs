@@ -7,6 +7,7 @@ using ForumBE.Helpers;
 using ForumBE.Models;
 using ForumBE.Repositories.ActivitiesLog;
 using ForumBE.Repositories.Interfaces;
+using ForumBE.Repositories.Notifications;
 using ForumBE.Repositories.Users;
 using ForumBE.Services.User;
 using Microsoft.AspNetCore.Identity;
@@ -27,6 +28,7 @@ namespace ForumBE.Services.Auth
         private readonly IUserRepository _userRepository;
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly IActivityLogRepository _activityLogRepository;
+        private readonly INotificationRepository _notificationRepository;
         private readonly IMapper _mapper;
 
         public AuthService(
@@ -37,6 +39,7 @@ namespace ForumBE.Services.Auth
             IUserRepository userRepository,
             IMapper mapper,
             IUserProfileRepository userProfileRepository,
+            INotificationRepository notificationRepository,
             IActivityLogRepository activityLogRepository)
         {
             _dbContext = dbContext;
@@ -47,6 +50,7 @@ namespace ForumBE.Services.Auth
             _mapper = mapper;
             _userProfileRepository = userProfileRepository;
             _activityLogRepository = activityLogRepository;
+            _notificationRepository = notificationRepository;
         }
         public async Task<LoginResponseDto> Authenticate(LoginRequestDto input)
         {
@@ -90,7 +94,7 @@ namespace ForumBE.Services.Auth
                 Description = $"Đăng nhập thành công với email {input.Email}",
                 Module = "AuthModule",
                 CreatedAt = DateTime.Now,
-                IsDeleted = false,
+                IsDeleted = true,
             };
             await _activityLogRepository.AddAsync(log);
             return new LoginResponseDto
@@ -158,6 +162,18 @@ namespace ForumBE.Services.Auth
             };
             var userProflie = _mapper.Map<UserProfile>(userProfileDto);
             await _userProfileRepository.AddAsync(userProflie);
+
+            var notifications = new Notification
+            {
+                UserId = alreadyUser.UserId,
+                SenderId = null,
+                Type = "System",
+                Message = $"Chào mừng người dùng {alreadyUser.FirstName + " " + alreadyUser.LastName} đến với diễn đàn",
+                IsRead = false,
+                CreatedAt = DateTime.Now,
+                IsDeleted = false
+            };
+            await _notificationRepository.AddAsync(notifications);
 
             var log = new ActivityLog
             {

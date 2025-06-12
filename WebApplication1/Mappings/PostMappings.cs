@@ -33,7 +33,7 @@ namespace ForumBE.Mappings
             //    .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
 
             CreateMap<PostCreateRequestDto, Post>();
-            CreateMap<PostUpdateRequest, Post>()
+            CreateMap<PostUpdateRequestDto, Post>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }

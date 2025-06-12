@@ -11,7 +11,7 @@ namespace ForumBE.Repositories.Posts
         Task<PagedList<Post>> GetAllPagesByCategoryAsync(int categoryId, PaginationDto input);
         Task<PagedList<PostAdminResponseDto>> GetAllByAdmin(PaginationDto input, PostSearchRequestDto condition);
         Task<IEnumerable<Post>> GetLatestPostsAsync(string? sortBy);
-        Task<Post> GetPostByAdminAsync(int id);
+        Task<PostAdminResponseDto> GetPostByAdminAsync(int id);
         Task<Post> GetPostBySlugAsync(string slug);
         Task<int> CountByCategoryAsync(int categoryId);
         Task<int> CountPostLikeAsync(int postId);
@@ -19,6 +19,7 @@ namespace ForumBE.Repositories.Posts
         Task<bool> HasUserLikedPostAsync(int postId, int userId);
         Task<int> GetUserAuthorByPostAsync(int postId);
         Task<bool> IsSlugExistsAsync(string slug);
+        Task<Post> GetByIdAllStatusAsync(int id);
 
     }
 }

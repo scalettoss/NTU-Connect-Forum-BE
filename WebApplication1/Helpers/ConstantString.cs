@@ -5,9 +5,10 @@
         public const string Admin = "Admin";
         public const string Moderator = "Moderator";
         public const string User = "User";
-        public const string Pending = "Pending";
-        public const string Approved = "Approved";
-        public const string Rejected = "Rejected";
+        public const string Pending = "pending";
+        public const string Approved = "approved";
+        public const string Rejected = "rejected";
+        public const string Resolved = "resolved";
         public const string LoginAction = "Login";
         public const string LogoutAction = "Logout";
         public const string RegisterAction = "Register";

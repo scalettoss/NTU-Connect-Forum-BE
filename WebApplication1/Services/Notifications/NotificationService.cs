@@ -199,7 +199,7 @@ namespace ForumBE.Services.Notifications
             {
                 UserId = user.UserId,
                 SenderId = null,                 
-                Type = "System",
+                Type = "system",
                 Message = input.Message,
                 IsRead = false,
                 CreatedAt = now,

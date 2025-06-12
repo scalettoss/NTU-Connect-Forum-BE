@@ -14,6 +14,8 @@ using ForumBE.Repositories.Likes;
 using ForumBE.Repositories.Notifications;
 using ForumBE.Repositories.Posts;
 using ForumBE.Repositories.Reports;
+using ForumBE.Repositories.ScamDetections;
+using ForumBE.Repositories.SystemConfigs;
 using ForumBE.Repositories.Users;
 using ForumBE.Services.ActivitiesLog;
 using ForumBE.Services.Auth;
@@ -26,6 +28,7 @@ using ForumBE.Services.IPost;
 using ForumBE.Services.Notifications;
 using ForumBE.Services.Posts;
 using ForumBE.Services.Statistics;
+using ForumBE.Services.SystemConfigs;
 using ForumBE.Services.User;
 using ForumBE.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -120,6 +123,13 @@ builder.Services.AddAuthorization(options =>
 });
 
 
+builder.Services.AddHttpClient("PredictionClient", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5000");
+});
+
+
+
 builder.Services.AddSignalR();
 
 
@@ -185,6 +195,11 @@ builder.Services.AddScoped<IReportStatusService, ReportStatusService>();
 // scoped warning
 builder.Services.AddScoped<IWarningRepository, WarningRepository>();
 builder.Services.AddScoped<IWarningService, WarningService>();
+
+// scoped scamdetection
+builder.Services.AddScoped<IScamDetectionRepositoyry, ScamDetectionRepositoyry>();
+builder.Services.AddScoped<ISystemConfigRepository, SystemConfigRepository>();
+builder.Services.AddScoped<ISystemConfigService, SystemConfigService>();
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<AuthService>();

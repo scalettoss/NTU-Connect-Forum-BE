@@ -60,7 +60,7 @@ namespace ForumBE.Services.Implementations
             }    
            
             var reportStatus = _mapper.Map<ReportStatus>(input);
-            reportStatus.Status = "Pending";
+            reportStatus.Status = "pending";
             reportStatus.IsProcessed = false;
             reportStatus.CreatedAt = DateTime.Now;
             reportStatus.HandledBy = null;
@@ -85,5 +85,7 @@ namespace ForumBE.Services.Implementations
 
             return true;
         }
+
+
     }
 }

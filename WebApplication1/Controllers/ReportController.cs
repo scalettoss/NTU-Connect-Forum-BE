@@ -1,4 +1,6 @@
-﻿using ForumBE.DTOs.Reports;
+﻿using ForumBE.DTOs.Paginations;
+using ForumBE.DTOs.Reports;
+using ForumBE.Helpers;
 using ForumBE.Response;
 using ForumBE.Services.Implementations;
 using ForumBE.Services.Interfaces;
@@ -18,12 +20,12 @@ namespace ForumBE.Controllers
             _reportService = reportService;
         }
 
-        [HttpGet]
-        public async Task<ResponseBase> GetAllReports()
-        {
-            var reports = await _reportService.GetAllReportsAsync();
-            return ResponseBase.Success(reports);
-        }
+        //[HttpGet]
+        //public async Task<ResponseBase> GetAllReports()
+        //{
+        //    var reports = await _reportService.GetAllReportsAsync();
+        //    return ResponseBase.Success(reports);
+        //}
 
         [HttpGet("{id}")]
         public async Task<ResponseBase> GetReportById(int id)
@@ -66,5 +68,26 @@ namespace ForumBE.Controllers
             }
             return ResponseBase.Success("Delete report successfully");
         }
+
+        [AuthorizeRoles(ConstantString.Admin)]
+        [HttpGet]
+        public async Task<ResponseBase> GetAllReports([FromQuery] PaginationDto request)
+        {
+            var reports = await _reportService.GetAllReportPagedAsync(request);
+            return ResponseBase.Success(reports);
+        }
+
+        [AuthorizeRoles(ConstantString.Admin)]
+        [HttpPost("handle")]
+        public async Task<ResponseBase> HandelReportAsync([FromBody] HandelReportRequestDto request)
+        {
+            var isHandel = await _reportService.HandelReportAsync(request);
+            if (!isHandel)
+            {
+                return ResponseBase.Fail("Handle report failed.");
+            }
+            return ResponseBase.Success("Handle report successfully.");
+        }
+
     }
 }

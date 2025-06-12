@@ -36,8 +36,6 @@
             public DateTime? UpdatedAt { get; set; }
             public string FullName { get; set; }
             public string AvatarUrl { get; set; }
-            public int CommentCount { get; set; }
-            public int LikeCount { get; set; }
             public List<string> FileTypes { get; set; }
             public List<string> FileUrls { get; set; }
         }

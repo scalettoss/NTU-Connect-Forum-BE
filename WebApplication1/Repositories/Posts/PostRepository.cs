@@ -5,6 +5,7 @@ using ForumBE.Helpers;
 using ForumBE.Models;
 using ForumBE.Repositories.Generics;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ForumBE.Repositories.Posts
 {
@@ -142,6 +143,13 @@ namespace ForumBE.Repositories.Posts
             return post;
         }
 
+        public async Task<Post> GetByIdAllStatusAsync(int id)
+        {
+            var post = await _context.Posts
+                .FirstOrDefaultAsync(p => p.PostId == id);
+            return post;
+        }
+
         public async Task<bool> HasUserLikedPostAsync(int postId, int userId)
         {
             return await _context.Likes
@@ -161,9 +169,9 @@ namespace ForumBE.Repositories.Posts
             return post;
         }
 
-        public Task<int> GetUserAuthorByPostAsync(int postId)
+        public async Task<int> GetUserAuthorByPostAsync(int postId)
         {
-            var post = _context.Posts
+            var post = await _context.Posts
                 .Where(p => p.PostId == postId && p.IsDeleted == false)
                 .Select(p => p.UserId)
                 .FirstOrDefaultAsync();
@@ -224,31 +232,38 @@ namespace ForumBE.Repositories.Posts
                 Status = p.Status,
                 FullName = p.User.FirstName + " " + p.User.LastName,
                 AvatarUrl = p.User.UserProfile.AvatarUrl,
-                CommentCount = p.Comments.Count(),
-                LikeCount = p.Likes.Count(),
                 ConfidenceScore = p.ScamDetection.ConfidenceScore,
                 IsScam = p.ScamDetection.ModelPrediction,
                 FileTypes = p.Attachments.Select(a => a.FileType).ToList(),
                 FileUrls = p.Attachments.Select(a => a.FileUrl).ToList(),
                 CategoryName = p.Category.Name,
                 UpdatedAt = p.UpdatedAt,
-            });
+            }).AsQueryable();
 
             return await PagedList<PostAdminResponseDto>.CreateAsync(projectedQuery, input.PageNumber, input.PageSize);
         }
 
-        public async Task<Post> GetPostByAdminAsync(int id)
+        public async Task<PostAdminResponseDto> GetPostByAdminAsync(int id)
         {
-            var post = await _context.Posts
-                .Include(p => p.User)
-                .Include(p => p.Attachments)
-                .Include(p => p.User.UserProfile)
-                .Include(p => p.Comments)
-                .Include(p => p.Likes)
-                .Include(p => p.Category)
-                .Include(p => p.ScamDetection)
-                .FirstOrDefaultAsync(p => p.PostId == id);
 
+            var post = await _context.Posts.Select(p => new PostAdminResponseDto
+            {
+                PostId = p.PostId,
+                Title = p.Title,
+                Content = p.Content,
+                CreatedAt = p.CreatedAt,
+                Status = p.Status,
+                FullName = p.User.FirstName + " " + p.User.LastName,
+                AvatarUrl = p.User.UserProfile.AvatarUrl,
+                ConfidenceScore = p.ScamDetection.ConfidenceScore,
+                IsScam = p.ScamDetection.ModelPrediction,
+                FileTypes = p.Attachments.Select(a => a.FileType).ToList(),
+                FileUrls = p.Attachments.Select(a => a.FileUrl).ToList(),
+                CategoryName = p.Category.Name,
+                UpdatedAt = p.UpdatedAt,
+            })
+            .FirstOrDefaultAsync(p => p.PostId == id);
+            
             return post;
         }
     }

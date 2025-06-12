@@ -1,4 +1,6 @@
 ﻿using ForumBE.DTOs.ReportStatus;
+using ForumBE.Models;
+using ForumBE.Repositories.Generics;
 
 namespace ForumBE.Services.Interfaces
 {

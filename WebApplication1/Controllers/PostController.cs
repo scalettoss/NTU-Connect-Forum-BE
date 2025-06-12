@@ -88,7 +88,7 @@ namespace ForumBE.Controllers
 
         [AuthorizeRoles(ConstantString.User)]
         [HttpPut("{id}")]
-        public async Task<ResponseBase> UpdatePost(int id, [FromBody] PostUpdateRequest input)
+        public async Task<ResponseBase> UpdatePost(int id, [FromBody] PostUpdateRequestDto input)
         {
             var isUpdated = await _postService.UpdatePostAsync(id, input);
             if (!isUpdated)
@@ -116,6 +116,18 @@ namespace ForumBE.Controllers
         {
             var posts = await _postService.GetLatestPostsAsync(sortBy);
             return ResponseBase.Success(posts);
+        }
+
+        [AuthorizeRoles(ConstantString.Admin)]
+        [HttpPut("by-admin/{id}")]
+        public async Task<ResponseBase> UpdatePostByAdmin([FromBody] PostUpdateByAdminRequestDto request, int id)
+        {
+            var isUpdated = await _postService.UpdatePostByAdminAsync(request, id);
+            if (!isUpdated)
+            {
+                return ResponseBase.Fail("Update post failed.");
+            }
+            return ResponseBase.Success("Update post successfully");
         }
     }
 }

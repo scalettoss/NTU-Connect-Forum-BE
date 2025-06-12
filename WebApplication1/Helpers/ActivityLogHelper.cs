@@ -1,7 +1,7 @@
 using ForumBE.DTOs.ActivitiesLog;
 using ForumBE.Services.ActivitiesLog;
 
-namespace ForumBE.Controllers
+namespace ForumBE.Helpers
 {
     public static class ActivityLogHelper
     {

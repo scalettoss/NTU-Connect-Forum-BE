@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ForumBE.Controllers;
 using ForumBE.DTOs.Exception;
 using ForumBE.DTOs.Paginations;
 using ForumBE.DTOs.Posts;
@@ -11,8 +10,14 @@ using ForumBE.Repositories.Bookmarks;
 using ForumBE.Repositories.Categories;
 using ForumBE.Repositories.IUnitOfWork;
 using ForumBE.Repositories.Posts;
+using ForumBE.Repositories.ScamDetections;
+using ForumBE.Repositories.SystemConfigs;
 using ForumBE.Services.ActivitiesLog;
 using ForumBE.Services.IPost;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using System.Text;
+using static ForumBE.DTOs.ScamDetections.ScamDetectionDto;
 
 
 namespace ForumBE.Services.Posts
@@ -28,6 +33,9 @@ namespace ForumBE.Services.Posts
         private readonly IUnitOfWork _unitOfWork;
         private readonly ClaimContext _claimContext;
         private readonly IActivityLogService _activityLogService;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IScamDetectionRepositoyry _scamDetectionRepositoyry;
+        private readonly ISystemConfigRepository _systemConfigRepository;
 
         public PostService(
             IPostRepository postRepository,
@@ -38,7 +46,11 @@ namespace ForumBE.Services.Posts
             ClaimContext claimContext,
             IUnitOfWork unitOfWork,
             ILogger<PostService> logger,
-            IActivityLogService activityLogService)
+            IHttpClientFactory httpClientFactory,
+            IActivityLogService activityLogService, 
+            IScamDetectionRepositoyry scamDetectionRepositoyry,
+            ISystemConfigRepository systemConfigRepository
+            )
         {
             _postRepository = postRepository;
             _mapper = mapper;
@@ -49,6 +61,9 @@ namespace ForumBE.Services.Posts
             _unitOfWork = unitOfWork;
             _logger = logger;
             _activityLogService = activityLogService;
+            _httpClientFactory = httpClientFactory;
+            _scamDetectionRepositoyry = scamDetectionRepositoyry;
+            _systemConfigRepository = systemConfigRepository;
         }
 
         public async Task<PagedList<PostResponseDto>> GetAllPostsAsync(PaginationDto input)
@@ -115,7 +130,7 @@ namespace ForumBE.Services.Posts
                 // Tạo bài viết
                 var postEntity = _mapper.Map<Models.Post>(request);
                 postEntity.CreatedAt = DateTime.Now;
-                postEntity.Status = "Pending";
+                postEntity.Status = "pending";
                 postEntity.UserId = userId;
                 postEntity.Slug = slug;
 
@@ -147,6 +162,37 @@ namespace ForumBE.Services.Posts
                     $"Tạo bài viết với nội dung: {request.Title}"
                 );
 
+                var httpClient = new HttpClient();
+                var content = new StringContent(JsonConvert.SerializeObject(new { content = request.Content }), Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("http://localhost:5000/predict", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var prediction = JsonConvert.DeserializeObject<PredictionResponse>(responseContent);
+                    float confidenceScore = prediction.data.ConfidenceScore;
+                    bool modelPrediction = prediction.data.ModelPrediction;
+                    string modelVersion = prediction.data.ModelVersion;
+                    DateTime createdAt = prediction.data.CreatedAt;
+                    var dataInsert = new ScamDetection
+                    {
+                        PostId = postId,
+                        ConfidenceScore = confidenceScore,
+                        ModelPrediction = modelPrediction,
+                        ModelVersion = modelVersion,
+                        CreatedAt = createdAt,
+                        IsDeleted = false,
+                    };
+                    if (!modelPrediction)
+                    {
+                        var autoApproved = await _systemConfigRepository.GetByKeyAsync("AutoApproved");
+                        if (autoApproved.Value && autoApproved.IsActive)
+                        {
+                            postEntity.Status = "approved";
+                            await _postRepository.UpdateAsync(postEntity);
+                        }
+                    }
+                    await _scamDetectionRepositoyry.AddAsync(dataInsert);
+                }
                 // Thành công
                 await _unitOfWork.CommitTransactionAsync();
                 return postEntity.PostId;
@@ -169,7 +215,7 @@ namespace ForumBE.Services.Posts
         }
 
 
-        public async Task<bool> UpdatePostAsync(int postId, PostUpdateRequest request)
+        public async Task<bool> UpdatePostAsync(int postId, PostUpdateRequestDto request)
         {
             var userId = _claimContext.GetUserId();
             var userRole = _claimContext.GetUserRoleName();
@@ -205,12 +251,21 @@ namespace ForumBE.Services.Posts
         {
             var userId = _claimContext.GetUserId();
             var userRole = _claimContext.GetUserRoleName();
-            var post = await _postRepository.GetByIdAsync(postId);
+            var post = await _postRepository.GetByIdAllStatusAsync(postId);
             if (post == null)
             {
                 throw new HandleException("Post not found!", 404);
             }
-
+            if (userRole == "admin")
+            {
+                post.IsDeleted = true;
+                await _postRepository.UpdateAsync(post);
+                return true;
+            }
+            if (userId != post.UserId)
+            {
+                throw new HandleException("You do not have permission to delete this post!", 403);
+            }
             post.IsDeleted = true;
             await _postRepository.UpdateAsync(post);
 
@@ -345,9 +400,38 @@ namespace ForumBE.Services.Posts
             {
                 throw new HandleException("Post not found!", 404);
             }
-            var postDto = _mapper.Map<PostAdminResponseDto>(post);
             _logger.LogInformation("Fetched post with ID {PostId} for admin.", postId);
-            return postDto;
+            return post;
+        }
+
+        public async Task<bool> UpdatePostByAdminAsync(PostUpdateByAdminRequestDto input, int postId)
+        {
+            var post = await _postRepository.GetByIdAllStatusAsync(postId);
+            if (post == null)
+            {
+                throw new HandleException("Post not found!", 404);
+            }
+
+            if (!string.IsNullOrEmpty(input.Title))
+            {
+                var baseSlug = ConvertStringToSlug.ToSlug(input.Title);
+                var slug = await GenerateUniqueSlugAsync(baseSlug);
+                post.Slug = slug;
+                post.Title = input.Title;
+            }
+
+            if (!string.IsNullOrEmpty(input.Content))
+            {
+                post.Content = input.Content;
+            }
+
+            if (!string.IsNullOrEmpty(input.Status))
+            {
+                post.Status = input.Status;
+            }
+            post.UpdatedAt = DateTime.Now;
+            await _postRepository.UpdateAsync(post);
+            return true;
         }
     }
 }

@@ -38,10 +38,10 @@ namespace ForumBE.Repositories.Bookmarks
             return bookmarks;
         }
 
-        public async Task<Bookmark> GetByPostAsync(int postId)
+        public async Task<Bookmark> GetByPostAsync(int postId, int userId)
         {
             var bookmark = await _context.Bookmarks
-                .FirstOrDefaultAsync(b => b.PostId == postId);
+                .FirstOrDefaultAsync(b => b.PostId == postId && b.UserId == userId);
 
             return bookmark;
         }

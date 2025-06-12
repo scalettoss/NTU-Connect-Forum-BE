@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ForumBE.Controllers;
 using ForumBE.DTOs.Comments;
 using ForumBE.DTOs.Exception;
 using ForumBE.DTOs.Paginations;

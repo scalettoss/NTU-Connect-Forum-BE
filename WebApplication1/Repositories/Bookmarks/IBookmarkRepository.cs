@@ -8,7 +8,7 @@ namespace ForumBE.Repositories.Bookmarks
     {
         Task<Bookmark> IsExistingBookmark(int userId, int postId);
         Task<IEnumerable<Bookmark>> GetAllByUserAsync(int userId);
-        Task<Bookmark> GetByPostAsync(int postId);
+        Task<Bookmark> GetByPostAsync(int postId, int userId);
         Task<bool> IsAlreadyBookmark(int postId, int userId);
     }
 }

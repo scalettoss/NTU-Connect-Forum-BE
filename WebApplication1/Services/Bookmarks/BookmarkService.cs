@@ -59,8 +59,8 @@ namespace ForumBE.Services.Bookmarks
         public async Task<bool> ToggleBookmarkAsync(BookmarkCreateRequestDto input)
         {
             var userId = _userContextService.GetUserId();
-            var existingBookmark = await _bookmarkRepository.GetByPostAsync(input.PostId);
-            if (existingBookmark != null && existingBookmark.UserId == userId)
+            var existingBookmark = await _bookmarkRepository.GetByPostAsync(input.PostId, userId);
+            if (existingBookmark != null)
             {
                 if (existingBookmark.IsDeleted)
                 {
